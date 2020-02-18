@@ -5,7 +5,7 @@ import javax.sql.DataSource;
 import org.apache.ibatis.datasource.pooled.PooledDataSource;
 
 @Data
-public class MyBatisDataSource {
+public class MyBatisDataSource  {
 	private String driver;
 	private String url;
 	private String username;
@@ -16,7 +16,14 @@ public class MyBatisDataSource {
 	public DataSource build() {
 		String password = this.password;
 		
-		DataSource dataSource = new PooledDataSource(this.driver,this.url,this.username,password);
+		PooledDataSource dataSource = new PooledDataSource(this.driver,this.url,this.username,password);
+		
+		dataSource.setDefaultAutoCommit(false);
+		dataSource.setLoginTimeout(1000);
+		dataSource.setDefaultNetworkTimeout(1000);
+		dataSource.setPoolMaximumActiveConnections(10);
+		dataSource.setPoolMaximumIdleConnections(5);
+		dataSource.setPoolPingConnectionsNotUsedFor(5000);
 		
 		return dataSource;
 	}

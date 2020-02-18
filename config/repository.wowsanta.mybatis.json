@@ -1,0 +1,5 @@
+{
+  "id": "dev",
+  "datasourceInfo": "../config/datasource.wowsanta.mybatis.json",
+  "resourcePath": "../mapper/wowsanta"
+}

@@ -11,7 +11,16 @@ public class LOGGER {
 	public static Logger error 		= LoggerFactory.getLogger("error");
 	
 	public static ScimException error(Exception e) {
+		Logger error = LoggerFactory.getLogger("error");
 		error.error("{}",e.getMessage(),e);
 		return new ScimException(e);
 	}
+	
+	public static Logger getSystemLogger() {
+		return LoggerFactory.getLogger("system");
+	}
+	public static Logger getProcessLogger() {
+		return LoggerFactory.getLogger("process");
+	}
+	
 }

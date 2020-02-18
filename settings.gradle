@@ -1,5 +1,5 @@
 rootProject.name = 'wescim'
-include "wow-daemon" //,"wow-cli","wow-jdt","wow-sec"
+include "wow-daemon" ,"wow-utils"//,"wow-jdt","wow-sec"
 include "we-scim-core","we-scim-repository"
 include "we-scim-admin"
 include "we-scim-server"
