@@ -9,4 +9,8 @@ public class ScimException extends Exception{
 	public ScimException(Throwable e) {
 		super(e.getMessage(),e);
 	}
+
+	public ScimException(String msg) {
+		super(msg);
+	}
 }

@@ -11,9 +11,10 @@ import com.wowsanta.server.spark.SparkServiceConfig;
 import lombok.Data;
 
 @Data
-public class ProviderServer  implements Server{
+public class ProviderServer extends ConfigurationFactory implements Server{
 
 	private transient Server sparkServer;
+	
 	private String serverConfig;
 	private String adminConfig;
 	private String providerConfig;

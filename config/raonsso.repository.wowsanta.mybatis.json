@@ -1,0 +1,15 @@
+{
+  "dataInfo": {
+    "driver": "com.mysql.cj.jdbc.Driver",
+    "url": "jdbc:mysql://wession.com:3306/ws_scim_im?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC",
+    "username": "root",
+    "encPw": "EQjuujwLTEBklr1Oq77lQg==",
+    "autoCommit": false,
+    "loginTimeout": 3000,
+    "networkTimeout": 1000,
+    "maxPoolActive": 10,
+    "maxPoolIdle": 1
+  },
+  "resourcePath": "../mapper/wowsanta",
+  "name": "raonsso"
+}

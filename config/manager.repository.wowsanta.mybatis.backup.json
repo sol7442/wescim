@@ -1,0 +1,15 @@
+{
+  "defaultName": "default",
+  "repositoris": {
+    "default": {
+      "name": "default",
+      "implClass": "com.wowsanta.repository.mybatis.MyBatisConfiguation",
+      "fileName": "../config/default.repository.wowsanta.mybatis.json"
+    },
+    "raonsso": {
+      "name": "raonsso",
+      "implClass": "com.wowsanta.repository.mybatis.MyBatisConfiguation",
+      "fileName": "../config/raonsso.repository.wowsanta.mybatis.json"
+    }
+  }
+}

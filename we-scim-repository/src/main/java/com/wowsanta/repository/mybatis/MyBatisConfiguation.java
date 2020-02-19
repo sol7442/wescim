@@ -4,9 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-import javax.sql.DataSource;
 
 import org.apache.ibatis.builder.xml.XMLMapperBuilder;
+import org.apache.ibatis.datasource.pooled.PooledDataSource;
 import org.apache.ibatis.mapping.Environment;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -14,27 +14,38 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.ibatis.transaction.TransactionFactory;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 
+import com.wowsanta.repository.RepositoryConfig;
 import com.wowsanta.repository.SessionFactory;
 import com.wowsanta.scim.config.ConfigurationFactory;
 import com.wowsanta.scim.config.ScimException;
-import com.wowsata.scim.UserRepository;
 
 import lombok.Data;
 
 @Data
-public class MyBatisConfiguation {
-	private String id;
-	private String datasourceInfo;
+public class MyBatisConfiguation extends RepositoryConfig {
+	
+	private MyBatisDataSource dataInfo;
 	private String resourcePath;
 	
+	@Override
 	public SessionFactory build() {
-		
 		try {
-			MyBatisDataSource data_sourec_config = ConfigurationFactory.load(MyBatisDataSource.class, datasourceInfo);
-			DataSource dataSource = data_sourec_config.build();
+			PooledDataSource dataSource = new PooledDataSource(
+					dataInfo.getDriver(),
+					dataInfo.getUrl(),
+					dataInfo.getUsername(),
+					dataInfo.getPassword()
+					);
+			dataSource.setDefaultAutoCommit(false);
+			dataSource.setLoginTimeout(1000);
+			dataSource.setDefaultNetworkTimeout(1000);
+			dataSource.setPoolMaximumActiveConnections(10);
+			dataSource.setPoolMaximumIdleConnections(5);
+			dataSource.setPoolPingConnectionsNotUsedFor(5000);
+			
 			
 			TransactionFactory transactionFactory = new JdbcTransactionFactory();
-			Environment environment = new Environment(id, transactionFactory, dataSource);
+			Environment environment = new Environment(getName(), transactionFactory, dataSource);
 			
 			Configuration config = new Configuration();
 			config.setEnvironment(environment);
@@ -61,7 +72,7 @@ public class MyBatisConfiguation {
 					.factory(session_factory)
 					.build();
 			
-		} catch (ScimException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
