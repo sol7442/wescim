@@ -1,34 +1,48 @@
 package com.wowsanta.server.spark;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
+import com.wowsanta.scim.config.Configuration;
 import com.wowsanta.server.Server;
 import com.wowsanta.server.Service;
 
+import lombok.Builder;
 import lombok.Data;
 import spark.Spark;
 
 @Data
-public class SparkServer implements Server {
+@Builder
+public class SparkServer extends Configuration implements Server {
 		
-	private int port;
-	private int maxThreads;
-	private int minThreads;
-	private int idleTime;
-	private String keystoreFile;
-	private String keystorePassword;
-	private String truststoreFile;
-	private String truststorePassword;
+//	private int port;
+//	private int maxThreads;
+//	private int minThreads;
+//	private int idleTime;
+//	private String keystoreFile;
+//	private String keystorePassword;
+//	private String truststoreFile;
+//	private String truststorePassword;
+	
+	public final static String KEY_STORE		= "KEY_STORE";
+	public final static String KEY_STORE_PW	 	= "KEY_STORE_PW";
+	public final static String TRUST_STORE 		= "TRUST_STORE";
+	public final static String TRUST_STORE_PW 	= "TRUST_STORE_PW";
+	
 
-	private List<Service> services = new ArrayList<Service>();
+	private Map<String, Service> serviceMap = new HashMap<String, Service>();
 	
 	@Override
 	public void initialize() {
-		Spark.port(port);
-		Spark.threadPool(maxThreads,minThreads,idleTime);
-		Spark.secure(keystoreFile, keystorePassword, truststoreFile, truststorePassword);
+		System.out.println(MAX_THREAD);
+		System.out.println(MAX_THREAD);
+		Spark.port(getInt(KEY_STORE));
+		Spark.threadPool(getInt(MAX_THREAD),getInt(MIN_THREAD),getInt(IDLE_TIMES));
+		
+		//Spark.secure(keystoreFile, keystorePassword, truststoreFile, truststorePassword);
 	}
+
+
 
 	@Override
 	public void start() {

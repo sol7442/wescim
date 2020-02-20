@@ -1,4 +1,13 @@
 {
-  "implClass": "com.wowsanta.ProviderServer",
-  "fileName": "../config/dev.provider.json"
+  "server": {
+    "name": "5000",
+    "implClss": "com.wowsanta.server.spark.SparkServer",
+    "settings": {
+      "PORT": 5000,
+      "MAX_THREAD": 10,
+      "MIN_THREAD": 2,
+      "IDLE_TIMES": 2000
+    }
+  },
+  "implClss": "com.wowsanta.ProviderAgent"
 }
