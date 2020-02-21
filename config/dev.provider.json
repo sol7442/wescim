@@ -1,13 +1,7 @@
 {
   "server": {
-    "name": "5000",
-    "implClss": "com.wowsanta.server.spark.SparkServer",
-    "settings": {
-      "PORT": 5000,
-      "MAX_THREAD": 10,
-      "MIN_THREAD": 2,
-      "IDLE_TIMES": 2000
-    }
+    "fileName": "../config/dev.server.5000.json",
+    "implClss": "com.wowsanta.server.spark.SparkServer"
   },
   "implClss": "com.wowsanta.ProviderAgent"
 }

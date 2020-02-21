@@ -5,6 +5,8 @@ import org.junit.Test;
 import com.wowsanta.ProviderAgent;
 import com.wowsanta.scim.config.Configuration;
 import com.wowsanta.scim.config.ScimException;
+import com.wowsanta.scim.obj.ScimObject;
+import com.wowsanta.server.Server;
 import com.wowsanta.server.spark.SparkServer;
 
 public class ServerConfigTest {
@@ -20,6 +22,10 @@ public class ServerConfigTest {
 			System.out.println("-ProviderAgent-load----------------------------------");
 			System.out.println(provider.toJson(true));
 		
+			provider.build();//.initialize();
+			provider.initialize();
+//			server.start();
+			
 		} catch (ScimException e) {
 			e.printStackTrace();
 		}
@@ -30,12 +36,13 @@ public class ServerConfigTest {
 		try {
 			ProviderAgent provider = ProviderAgent.builder().build();
 			
-			provider.setServer(load_server(server_config_5000_file));
+			provider.setServer( load_server(server_config_5000_file));
+			System.out.println(provider.toJson(true));
 			
-			provider.save(provider_config_file);
 			
 			System.out.println("-ProviderAgent-create----------------------------------");
-			System.out.println(provider.toJson(true));
+			provider.save(provider_config_file);
+			
 			
 			//server.save("../config/dev.provider.json");
 		} catch (Exception e) {
@@ -48,7 +55,7 @@ public class ServerConfigTest {
 		
 		try {
 			SparkServer server = SparkServer.builder().build();
-			server.setName("5000");
+			//server.setName("5000");
 			server.add(SparkServer.PORT,5000);
 			server.add(SparkServer.MAX_THREAD,10);
 			server.add(SparkServer.MIN_THREAD,2);
@@ -66,9 +73,9 @@ public class ServerConfigTest {
 		
 		
 	}
-	private Configuration load_server(String file_name) {
+	private ScimObject load_server(String file_name) {
 		try {
-			return Configuration.load(Configuration.class, file_name);
+			return ScimObject.load(SparkServer.class, file_name);
 		} catch (ScimException e) {
 			e.printStackTrace();
 		}

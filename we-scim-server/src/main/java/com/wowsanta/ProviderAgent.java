@@ -1,10 +1,12 @@
 package com.wowsanta;
 
+import com.google.gson.JsonObject;
 import com.wowsanta.repository.RepositoryManager;
 import com.wowsanta.scim.LOGGER;
 import com.wowsanta.scim.config.Configuration;
 import com.wowsanta.scim.config.ConfigurationFactory;
 import com.wowsanta.scim.config.ScimException;
+import com.wowsanta.scim.obj.ScimObject;
 import com.wowsanta.server.Server;
 import com.wowsanta.server.Service;
 import com.wowsanta.server.spark.SparkServer;
@@ -14,10 +16,10 @@ import lombok.Data;
 
 @Data
 @Builder
-public class ProviderAgent extends Configuration{
+public class ProviderAgent extends ScimObject{
 
-	private Configuration server;
-	private Configuration service;
+	//private Server server;
+	private ScimObject server;
 	private Configuration repository;
 	private Configuration engine;
 	
@@ -33,7 +35,15 @@ public class ProviderAgent extends Configuration{
 		}
 	}
 
-	
-	
+	@Override
+	public ProviderAgent build() {
+		// TODO Auto-generated method stub
+		return this;
+	}
+
+	public void initialize() throws ScimException {
+		Server server_inst = (Server) server;//.build();
+		server_inst.initialize();
+	}
 	
 }

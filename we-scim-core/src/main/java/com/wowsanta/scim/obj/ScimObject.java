@@ -1,4 +1,4 @@
-package com.wowsanta.scim.config;
+package com.wowsanta.scim.obj;
 
 import java.io.File;
 import java.io.FileReader;
@@ -6,41 +6,50 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.Expose;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import com.wowsanta.scim.LOGGER;
+import com.wowsanta.scim.config.ConfigData;
+import com.wowsanta.scim.config.ScimException;
 
 import lombok.Data;
 
-
-
 @Data
-public class Configuration extends ConfigData {
-	private String name;
+public class ScimObject extends ConfigData{
 	private String fileName;
 	private String implClss;
+	public Object build() throws ScimException {
+		if(implClss != null) {
+			try {
+				return Class.forName(implClss).cast(this);
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		throw new ScimException("BUILDER NOT IMPLIMENT EXCEPTION : ");
+	}
 	
-	
-	public class MapTypeAdapter implements JsonSerializer<Map<String, Object>>{
-
+//    public T cast(Object obj) {
+//        if (obj != null && !isInstance(obj))
+//            throw new ClassCastException(cannotCastMsg(obj));
+//        return (T) obj;
+//    }
+    
+	public static class MapTypeAdapter implements JsonSerializer<Map<String, Object>>{
 		@Override
 		public JsonElement serialize(Map<String, Object> src, Type typeOfSrc, JsonSerializationContext context) {
 			JsonObject json_map = new JsonObject();
@@ -74,14 +83,62 @@ public class Configuration extends ConfigData {
 			return json_map;
 		}
 	}
-	
-	
+	public static class ScimObjectTypeAdapter extends TypeAdapter<ScimObject>{
+
+		@Override
+		public void write(JsonWriter out, ScimObject value) throws IOException {
+			System.out.println("---- ScimObject write--- ");
+			out.beginObject();
+				out.name("fileName").value(value.getFileName());
+				out.name("implClss").value(value.getImplClss());
+			out.endObject();
+		}
+
+		@Override
+		public ScimObject read(JsonReader in) throws IOException {
+			
+			ScimObject object = null;
+			System.out.println("---- ScimObject read--- ");
+			in.beginObject();
+			
+			String fileName = "";
+			String clssName = "";
+			
+			while(in.hasNext()) {
+				String name = in.nextName();
+				switch(name) {
+				case "fileName":
+					fileName = in.nextString();
+					break;
+				case "implClss":
+					clssName = in.nextString();
+					break;
+				default :
+					LOGGER.error("UNKOWN NAME : {} ",name);
+				}
+			}
+			
+			try {
+				object = (ScimObject) load(Class.forName(clssName), fileName);
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			} catch (ScimException e) {
+				e.printStackTrace();
+			}
+			
+			in.endObject();
+			return object;
+		}
+		
+	}
 	public void save(String file_name) throws ScimException {
 		this.implClss = this.getClass().getName();
-		
+
 		GsonBuilder builder = new GsonBuilder();
 		builder.registerTypeAdapter(new TypeToken<Map<String, Object>>() {}.getType(), new MapTypeAdapter());
+		builder.registerTypeAdapter(new TypeToken<ScimObject>() {}.getType(), new ScimObjectTypeAdapter());
 		
+				
 		Gson gson = builder.disableHtmlEscaping().setPrettyPrinting().create();
 		try (FileWriter writer = new FileWriter(file_name)) {
 			LOGGER.system.info("================================== : {}",new Date());
@@ -97,7 +154,13 @@ public class Configuration extends ConfigData {
 	public static <T> T load (Class<T> type, String file_name) throws ScimException {
 		File file = new File(file_name);
 		if(file.exists() && file.isFile()) {
-			Gson gson = new GsonBuilder().disableHtmlEscaping().create();
+			
+			GsonBuilder builder = new GsonBuilder();
+			builder.registerTypeAdapter(new TypeToken<Map<String, Object>>() {}.getType(), new MapTypeAdapter());
+			builder.registerTypeAdapter(new TypeToken<ScimObject>() {}.getType(), new ScimObjectTypeAdapter());
+			
+			
+			Gson gson = builder.disableHtmlEscaping().create();
 			try (JsonReader reader = new JsonReader(new FileReader(file))) {
 				T config = gson.fromJson(reader, type);
 				
@@ -115,7 +178,11 @@ public class Configuration extends ConfigData {
 	}
 	
 	public String toJson(boolean pretty) {
-		GsonBuilder builder = new GsonBuilder().disableHtmlEscaping();//
+		
+		GsonBuilder builder = new GsonBuilder();
+		builder.registerTypeAdapter(new TypeToken<Map<String, Object>>() {}.getType(), new MapTypeAdapter());
+		builder.registerTypeAdapter(new TypeToken<ScimObject>() {}.getType(), new ScimObjectTypeAdapter());
+		
 		builder.registerTypeAdapter(new TypeToken<Map<String, Object>>() {}.getType(), new MapTypeAdapter());
 		if(pretty) {
 			builder.setPrettyPrinting();

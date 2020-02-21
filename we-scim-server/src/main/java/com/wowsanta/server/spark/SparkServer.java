@@ -3,7 +3,10 @@ package com.wowsanta.server.spark;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.wowsanta.scim.LOGGER;
 import com.wowsanta.scim.config.Configuration;
+import com.wowsanta.scim.config.ScimException;
+import com.wowsanta.scim.obj.ScimObject;
 import com.wowsanta.server.Server;
 import com.wowsanta.server.Service;
 
@@ -13,7 +16,7 @@ import spark.Spark;
 
 @Data
 @Builder
-public class SparkServer extends Configuration implements Server {
+public class SparkServer extends ScimObject implements Server {
 		
 //	private int port;
 //	private int maxThreads;
@@ -29,11 +32,15 @@ public class SparkServer extends Configuration implements Server {
 	public final static String TRUST_STORE 		= "TRUST_STORE";
 	public final static String TRUST_STORE_PW 	= "TRUST_STORE_PW";
 	
-
 	private Map<String, Service> serviceMap = new HashMap<String, Service>();
+	
+	
 	
 	@Override
 	public void initialize() {
+		LOGGER.system.info(" -- SPARK SERVER : {}", "name");
+		LOGGER.system.info("{}",this.toJson(true));
+		
 		System.out.println(MAX_THREAD);
 		System.out.println(MAX_THREAD);
 		Spark.port(getInt(KEY_STORE));
@@ -41,8 +48,6 @@ public class SparkServer extends Configuration implements Server {
 		
 		//Spark.secure(keystoreFile, keystorePassword, truststoreFile, truststorePassword);
 	}
-
-
 
 	@Override
 	public void start() {
@@ -52,5 +57,9 @@ public class SparkServer extends Configuration implements Server {
 	@Override
 	public void stop() {
 		Spark.awaitStop();
+	}
+
+	public SparkServer build() {
+		return this;
 	}
 }
