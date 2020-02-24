@@ -1,27 +1,25 @@
 package com.wowsanta;
 
-import com.google.gson.JsonObject;
-import com.wowsanta.repository.RepositoryManager;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
+
 import com.wowsanta.scim.LOGGER;
-import com.wowsanta.scim.config.Configuration;
-import com.wowsanta.scim.config.ConfigurationFactory;
+import com.wowsanta.scim.config.ConfigurationBuilder;
 import com.wowsanta.scim.config.ScimException;
-import com.wowsanta.scim.obj.ScimObject;
-import com.wowsanta.server.Server;
-import com.wowsanta.server.Service;
+import com.wowsanta.server.spark.ServiceBuilder;
 import com.wowsanta.server.spark.SparkServer;
 
-import lombok.Builder;
 import lombok.Data;
 
 @Data
-@Builder
-public class ProviderAgent extends ScimObject{
+public class ProviderAgent extends ConfigurationBuilder {
 
-	//private Server server;
-	private ScimObject server;
-	private Configuration repository;
-	private Configuration engine;
+	private SparkServer server;
+	private Map<String,String> services;
+	private Map<String,String> repositoris;
+	private Map<String,String> filters;
 	
 	public static void main(String[] args) {
 		try {
@@ -35,15 +33,46 @@ public class ProviderAgent extends ScimObject{
 		}
 	}
 
-	@Override
-	public ProviderAgent build() {
-		// TODO Auto-generated method stub
-		return this;
-	}
-
-	public void initialize() throws ScimException {
-		Server server_inst = (Server) server;//.build();
-		server_inst.initialize();
+	public static ProviderAgent build(String file) throws ScimException{
+		return load(ProviderAgent.class,file);
 	}
 	
+	public void initialize() throws ScimException {
+		try {
+//			if(services == null || repositoris == null || filters == null) {
+//				throw new ScimException("CONFIGURATION NOT FOUND :" + toString() );
+//			}
+			
+			Set<Entry<String,String>> service_entris  = services.entrySet();
+			for (Entry<String, String> entry : service_entris) {
+				
+				ServiceBuilder builder = ServiceBuilder.load(entry.getValue());
+				System.out.println(builder.getServices());
+				
+				//server.registerService(entry.getKey(),entry.getValue());
+			}
+			
+//			Set<Entry<String,String>> repository_entris  = repositoris.entrySet();
+//			for (Entry<String, String> entry : repository_entris) {
+//				System.out.println("repository_entris ---");
+//			}
+//			
+//			
+//			Set<Entry<String,String>> filter_entris  = filters.entrySet();
+//			for (Entry<String, String> entry : filter_entris) {
+//				System.out.println("filter_entrisy ---");
+//			}
+			
+		} catch (ScimException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void addService(ServiceBuilder builder) {
+		if(services == null) {
+			services = new HashMap<String, String>();
+		}
+		
+		services.put(builder.getName(),builder.getFileName());
+	}
 }

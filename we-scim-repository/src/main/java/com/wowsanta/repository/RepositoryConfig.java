@@ -1,8 +1,8 @@
 package com.wowsanta.repository;
 
-import com.wowsanta.scim.config.ConfigurationFactory;
+import com.wowsanta.scim.config.ConfigurationBuilder;
 
-public class RepositoryConfig extends ConfigurationFactory  {
+public class RepositoryConfig extends ConfigurationBuilder  {
 	public SessionFactory build()
 	{
 		return null;

@@ -1,14 +1,16 @@
 package com.wowsanta.server.spark;
 
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import com.wowsanta.scim.LOGGER;
-import com.wowsanta.scim.config.Configuration;
 import com.wowsanta.scim.config.ScimException;
-import com.wowsanta.scim.obj.ScimObject;
 import com.wowsanta.server.Server;
-import com.wowsanta.server.Service;
 
 import lombok.Builder;
 import lombok.Data;
@@ -16,38 +18,73 @@ import spark.Spark;
 
 @Data
 @Builder
-public class SparkServer extends ScimObject implements Server {
+public class SparkServer implements Server {
+
+	private int port;
+	private int maxThread;
+	private int minThread;
+	private int idleTime;
+	
+	private String keyStore;
+	private String keyStorePw;
+	private String trustStore;
+	private String trustStorePw;
+	
+	private transient Map<String, List<SparkService>> services;
+	
+	public void registerService(String key, String value) throws ScimException{
 		
-//	private int port;
-//	private int maxThreads;
-//	private int minThreads;
-//	private int idleTime;
-//	private String keystoreFile;
-//	private String keystorePassword;
-//	private String truststoreFile;
-//	private String truststorePassword;
+		List<SparkService> service_list = null;
+		if(services == null) {
+			services  = new HashMap<String, List<SparkService>>();
+			service_list = services.get(key);
+			if(service_list == null) {
+				service_list = new ArrayList<SparkService>();
+				services.put(key, service_list);
+			}
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+	}
 	
-	public final static String KEY_STORE		= "KEY_STORE";
-	public final static String KEY_STORE_PW	 	= "KEY_STORE_PW";
-	public final static String TRUST_STORE 		= "TRUST_STORE";
-	public final static String TRUST_STORE_PW 	= "TRUST_STORE_PW";
-	
-	private Map<String, Service> serviceMap = new HashMap<String, Service>();
-	
+	public void build() throws ScimException {
+//		Set<Entry<String,String>> service_entris = services.entrySet();
+//		for (Entry<String, String> entry : service_entris) {
+//			String service_name = entry.getKey();
+//			String service_file = entry.getValue();
+//			
+//			
+//			System.out.println("service_name  : " + service_name);
+//			System.out.println("service_name  : " + service_file);
+//			
+//			
+//		}
+	}
 	
 	
 	@Override
-	public void initialize() {
-		LOGGER.system.info(" -- SPARK SERVER : {}", "name");
-		LOGGER.system.info("{}",this.toJson(true));
+	public void initialize() throws ScimException{
+		LOGGER.system.info(" -- SPARK SERVER INITIALIZE --- : {}", "name");
+		LOGGER.system.info("{}",this);
 		
-		System.out.println(MAX_THREAD);
-		System.out.println(MAX_THREAD);
-		Spark.port(getInt(KEY_STORE));
-		Spark.threadPool(getInt(MAX_THREAD),getInt(MIN_THREAD),getInt(IDLE_TIMES));
-		
+		Spark.port(this.port);
+		Spark.threadPool(maxThread,minThread,idleTime);
+		 
 		//Spark.secure(keystoreFile, keystorePassword, truststoreFile, truststorePassword);
 	}
+	
+//	public void addService(String name, String file) {
+//		if(this.services == null) {
+//			this.services = new HashMap<String, String>();
+//		}
+//		this.services.put(name,file);
+//	}
 
 	@Override
 	public void start() {
@@ -59,7 +96,8 @@ public class SparkServer extends ScimObject implements Server {
 		Spark.awaitStop();
 	}
 
-	public SparkServer build() {
-		return this;
-	}
+
+
+
+
 }

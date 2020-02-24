@@ -6,9 +6,11 @@ import java.util.List;
 import com.wowsanta.server.Filter;
 import com.wowsanta.server.Service;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class SparkService implements Service {
 	private String method;
 	private String path;
