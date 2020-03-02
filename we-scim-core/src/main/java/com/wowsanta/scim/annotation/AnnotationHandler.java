@@ -1,8 +1,8 @@
-package com.wowsanta.server.handler;
+package com.wowsanta.scim.annotation;
 
 import java.io.File;
 
-import com.wowsanta.service.ServiceStructure;
+import com.wowsanta.scim.config.ServiceStructure;
 import com.wowsanta.util.file.FileFindHandler;
 
 public abstract class AnnotationHandler implements FileFindHandler{

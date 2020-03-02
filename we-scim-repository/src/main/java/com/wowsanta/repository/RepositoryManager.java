@@ -1,11 +1,40 @@
 package com.wowsanta.repository;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import com.wowsanta.scim.ScimException;
 import com.wowsanta.scim.config.Configuration;
+import com.wowsanta.scim.config.ConfigurationBuilder;
+import com.wowsanta.scim.config.Domain;
+import com.wowsanta.scim.config.ServiceStructure;
 
 
+public class RepositoryManager {
+	private static RepositoryManager instance = null;
+	
+	private Map<Domain.Key,RepositoryConfig> configurations;
+	private transient Map<Domain.Key,SessionFactory> sessionFacotries;
+	public static RepositoryManager getInstance() {
+		if(instance == null) {
+			instance = new RepositoryManager();
+		}
+		return instance;
+	}
 
+	public void addRepository(Domain.Key key, RepositoryConfig config) throws ScimException {
+		SessionFactory session_factory = config.build();
+		if(configurations == null || sessionFacotries == null ) {
+			configurations = new HashMap<Domain.Key, RepositoryConfig>();
+			sessionFacotries = new HashMap<Domain.Key,SessionFactory>();
+		}
+		
+		configurations.put(key, config);
+		sessionFacotries.put(key, session_factory);
 
-public class RepositoryManager extends Configuration{
+		ServiceStructure.getInstance().addRepository(key, (Configuration) config);
+	}
+	
 	
 	
 //	private String defaultName = "default";

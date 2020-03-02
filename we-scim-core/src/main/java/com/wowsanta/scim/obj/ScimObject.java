@@ -21,9 +21,9 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import com.wowsanta.scim.LOGGER;
 import com.wowsanta.scim.ScimException;
 import com.wowsanta.scim.config.ConfigData;
+import com.wowsanta.util.log.LOGGER;
 
 import lombok.Data;
 

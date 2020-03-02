@@ -6,7 +6,7 @@ import lombok.Data;
 public class Configuration{
 	private String fileName;
 	private String implClss;
-	
+	public Configuration() {}
 	public Configuration(String file_name, Class<?> classOf) {
 		this.fileName = file_name;
 		this.implClss = classOf.getName();

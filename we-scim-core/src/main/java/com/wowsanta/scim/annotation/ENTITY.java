@@ -10,4 +10,5 @@ import java.lang.annotation.Target;
 public @interface ENTITY {
 	String name();
 	String domain() default Constants.DEFATUL_DOMAIN;
+	String repository() default Constants.DEFATUL_REPOSITORY;
 }

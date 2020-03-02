@@ -4,7 +4,8 @@
     "implClss": "com.wowsanta.server.spark.SparkServer"
   },
   "settings": {
-    "classes": "C:\\Work\\wow-git\\wescim\\we-scim-service\\bin\\main"
-  },
-  "classDirectory": ""
+    "DOMAIN": "local.dev.scim",
+    "CLASSES": "../we-scim-service/bin",
+    "REPOSITORY": "hibernate"
+  }
 }

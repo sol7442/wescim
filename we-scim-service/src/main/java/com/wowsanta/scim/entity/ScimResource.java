@@ -18,15 +18,4 @@ public abstract class ScimResource implements Resource {
 	@Column(name = "name", columnDefinition = "VARCHAR(64)")
 	protected String name;
 	
-	@Column(name="createTime")
-	protected Date created;
-
-	@Column(name="modifyTime")
-	protected Date lastModified;
-	
-	@Column(name="expireTime")
-	protected Date expire;
-
-	@Column(name="active")
-	protected boolean active;
 }

@@ -14,6 +14,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.ibatis.transaction.TransactionFactory;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 
+import com.wowsanta.repository.DataSource;
 import com.wowsanta.repository.RepositoryConfig;
 import com.wowsanta.repository.SessionFactory;
 import com.wowsanta.scim.ScimException;
@@ -22,26 +23,36 @@ import com.wowsanta.scim.config.ConfigurationBuilder;
 import lombok.Data;
 
 @Data
-public class MyBatisConfiguation extends RepositoryConfig {
-	private String name;
-	private MyBatisDataSource dataInfo;
+public class MyBatisConfiguration extends RepositoryConfig  {
+	
+	private DataSource dataInfo;
 	private String resourcePath;
 	
+	private String name;
+	private boolean autoCommit 	= false;
+	private int loginTimeout	= 1000;;
+	private int networkTimeout	= 2000;
+	private int maxActivePool	= 10;
+	private int maxIdelPool		= 2;
+	private int pingConnectionNotUse = 60000;
+	
+	
 	@Override
-	public SessionFactory build() {
+	public SessionFactory build() throws ScimException {
 		try {
 			PooledDataSource dataSource = new PooledDataSource(
 					dataInfo.getDriver(),
 					dataInfo.getUrl(),
-					dataInfo.getUsername(),
+					dataInfo.getUser(),
 					dataInfo.getPassword()
 					);
-			dataSource.setDefaultAutoCommit(false);
-			dataSource.setLoginTimeout(1000);
-			dataSource.setDefaultNetworkTimeout(1000);
-			dataSource.setPoolMaximumActiveConnections(10);
-			dataSource.setPoolMaximumIdleConnections(5);
-			dataSource.setPoolPingConnectionsNotUsedFor(5000);
+			
+			dataSource.setDefaultAutoCommit(autoCommit);
+			dataSource.setLoginTimeout(loginTimeout);
+			dataSource.setDefaultNetworkTimeout(networkTimeout);
+			dataSource.setPoolMaximumActiveConnections(maxActivePool);
+			dataSource.setPoolMaximumIdleConnections(maxIdelPool);
+			dataSource.setPoolPingConnectionsNotUsedFor(pingConnectionNotUse);
 			
 			
 			TransactionFactory transactionFactory = new JdbcTransactionFactory();
@@ -66,15 +77,18 @@ public class MyBatisConfiguation extends RepositoryConfig {
 				}
 			}
 			
-			SqlSessionFactory session_factory = new SqlSessionFactoryBuilder().build(config);
-			return new MyBatisSessionFactory
-					.MyBatisSessionFactoryBuilder()
-					.factory(session_factory)
-					.build();
+			SqlSessionFactory mybatis_factory = new SqlSessionFactoryBuilder().build(config);
+			MyBatisSessionFactory factory = new MyBatisSessionFactory();
+			factory.setMyBatisSessionfactory(mybatis_factory);
+			
+			return factory;
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new ScimException(e);
 		}
-		return null;
+	}
+
+	public static MyBatisConfiguration load(String config_file) throws ScimException {
+		return ConfigurationBuilder.load(MyBatisConfiguration.class, config_file);
 	}
 }

@@ -8,8 +8,8 @@ import java.util.Date;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
-import com.wowsanta.scim.LOGGER;
 import com.wowsanta.scim.ScimException;
+import com.wowsanta.util.log.LOGGER;
 
 import lombok.Data;
 
@@ -37,8 +37,8 @@ public class ConfigurationBuilder {
 				config = gson.fromJson(reader, type);
 				
 				LOGGER.system.info("================================== : {}",new Date());
-				LOGGER.system.info("- load configuration : {}", file.getName());
-				LOGGER.system.info("{}",config);
+				LOGGER.system.info("load configuration : {}", file.getName());
+				LOGGER.system.info("{}",toJson(config));
 				
 				return config;
 			} catch (Exception e) {

@@ -1,17 +1,16 @@
 {
   "dataInfo": {
     "driver": "com.mysql.cj.jdbc.Driver",
-    "url": "jdbc:mysql://wession.com:3306/ws_scim_im?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC",
-    "username": "root",
-    "encPw": "EQjuujwLTEBklr1Oq77lQg==",
-    "autoCommit": false,
-    "loginTimeout": 3000,
-    "networkTimeout": 1000,
-    "maxPoolActive": 10,
-    "maxPoolIdle": 1
+    "url": "jdbc:mysql://wession.com:3306/ws_scim_v1?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC",
+    "user": "root",
+    "encPw": "EQjuujwLTEBklr1Oq77lQg=="
   },
   "resourcePath": "../mapper/wowsanta",
-  "name": "default",
-  "implClass": "com.wowsanta.repository.mybatis.MyBatisConfiguation",
-  "fileName": "../config/raonsso.repository.wowsanta.mybatis.json"
+  "name": "mybatis",
+  "autoCommit": false,
+  "loginTimeout": 1000,
+  "networkTimeout": 2000,
+  "maxActivePool": 10,
+  "maxIdelPool": 2,
+  "pingConnectionNotUse": 60000
 }

@@ -1,5 +1,24 @@
 package com.wowsanta.scim.entity;
 
-public class ScimMeta {
+import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+
+import lombok.Data;
+
+@Data
+@Embeddable
+public class ScimMeta {
+	@Column(name="createTime")
+	protected Date created;
+
+	@Column(name="modifyTime")
+	protected Date lastModified;
+	
+	@Column(name="expireTime")
+	protected Date expire;
+
+	@Column(name="active")
+	protected boolean active;
 }

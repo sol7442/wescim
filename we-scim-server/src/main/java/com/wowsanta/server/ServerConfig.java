@@ -9,8 +9,8 @@ import java.util.Date;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
-import com.wowsanta.scim.LOGGER;
 import com.wowsanta.scim.ScimException;
+import com.wowsanta.util.log.LOGGER;
 
 import lombok.Data;
 

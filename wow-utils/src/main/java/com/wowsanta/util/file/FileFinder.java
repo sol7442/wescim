@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.wowsanta.util.log.LOGGER;
+
 public class FileFinder {
 
 	private List<File> directoris = new ArrayList<File>();
@@ -14,7 +16,8 @@ public class FileFinder {
 		if(directory.exists() && directory.isDirectory()) {
 			this.directoris.add(directory);
 		}else {
-			System.out.println("is not directory : " + file_name);
+			LOGGER.system.info("local path : {} " , System.getProperty("user.dir"));
+			LOGGER.system.info("is not directory : {} ", file_name);
 		}
 	}
 

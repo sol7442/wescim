@@ -2,21 +2,26 @@ package com.wowsanta;
 
 import java.util.Map.Entry;
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
 import com.google.gson.annotations.SerializedName;
-import com.wowsanta.scim.LOGGER;
+import com.wowsanta.repository.RepositoryConfig;
+import com.wowsanta.repository.RepositoryManager;
 import com.wowsanta.scim.ScimException;
+import com.wowsanta.scim.annotation.AnnotationHandler;
 import com.wowsanta.scim.annotation.ENTITY;
 import com.wowsanta.scim.config.Configuration;
 import com.wowsanta.scim.config.ConfigurationBuilder;
+import com.wowsanta.scim.config.Domain;
+import com.wowsanta.scim.config.ServiceStructure;
+import com.wowsanta.scim.config.ServiceStructure.ServiceStructureBuilder;
 import com.wowsanta.scim.type.SCIM_ENTITY;
-import com.wowsanta.server.handler.AnnotationHandler;
 import com.wowsanta.server.handler.impl.EntityHandler;
-import com.wowsanta.service.ServiceStructure;
-import com.wowsanta.service.ServiceStructure.ServiceStructureBuilder;
+import com.wowsanta.util.log.LOGGER;
 
 import lombok.Data;
 
@@ -26,11 +31,10 @@ public class ProviderAgent {
 	@SerializedName(value = "server")
 	private Configuration serverConfig;
 	
-	@SerializedName(value = "service")
-	private Configuration serviceConfig;
 	
-	@SerializedName(value = "repository")
-	private Configuration repositoryConfig;
+	private Map<Domain.Key,Configuration> services;
+	private Map<Domain.Key,Configuration> repositoris;
+
 	
 	@SerializedName(value = "fiter")
 	private Configuration filterConfig;
@@ -48,21 +52,35 @@ public class ProviderAgent {
 	public static void main(String[] args) {
 		try {
 			String config_file 	= System.getProperty("server.config");
-//			ProviderAgent provider = ConfigurationFactory.load(ProviderAgent.class, config_file);
-//			provider.initialize();
-//			provider.start();
-			
 		} catch (Exception e) {
 			LOGGER.error("{} : ",e.getMessage(),e);
 		}
 	}
 
+	public void addRepository(Domain.Key key, Configuration config) {
+		if(repositoris == null) {
+			repositoris = new HashMap<Domain.Key, Configuration>();
+		}
+		repositoris.put(key, config);
+	}
+	
+	
 	public void build() throws ScimException {
-		ServiceStructure.builder()
+		ServiceStructureBuilder builder = ServiceStructure.builder()
 				.setProperty(settings)
-				.addAnnotationHandler(new EntityHandler())
-				.build();
+				.addAnnotationHandler(new EntityHandler());
+				
 		
+		RepositoryManager repositoryManager = RepositoryManager.getInstance();
+		Set<Entry<Domain.Key, Configuration>> repository_set = repositoris.entrySet();
+		for (Entry<Domain.Key, Configuration> entry : repository_set) {
+			RepositoryConfig configuration = (RepositoryConfig) ConfigurationBuilder.load(entry.getValue());
+			
+			repositoryManager.addRepository(entry.getKey(),configuration);
+		}
+		
+		
+		builder.build();
 		
 		LOGGER.system.info("SYSTEM BUILD ---- : " + ServiceStructure.getInstance());
 	}

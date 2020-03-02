@@ -1,10 +1,8 @@
 package com.wowsanta.repository;
 
-import com.wowsanta.scim.config.ConfigurationBuilder;
+import com.wowsanta.scim.ScimException;
+import com.wowsanta.scim.config.Configuration;
 
-public class RepositoryConfig extends ConfigurationBuilder  {
-	public SessionFactory build()
-	{
-		return null;
-	};
+public abstract class RepositoryConfig extends Configuration {
+	public abstract SessionFactory build() throws ScimException;
 }

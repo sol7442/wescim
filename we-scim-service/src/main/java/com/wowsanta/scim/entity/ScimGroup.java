@@ -10,10 +10,10 @@ import com.wowsanta.scim.type.SCIM_ENTITY;
 import lombok.Data;
 
 @Entity
-@Table(name = "WS_SCIM_USER")
-@ENTITY(name=SCIM_ENTITY.USER)
+@Table(name = "WS_SCIM_GROUP")
+@ENTITY(name=SCIM_ENTITY.GROUP)
 @Data
-public class ScimUser extends ScimResource {
+public class ScimGroup extends ScimResource {
 	@Embedded
 	private ScimMeta meta;
 }
