@@ -9,14 +9,27 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import com.wowsanta.scim.LOGGER;
+import com.wowsanta.scim.ScimException;
 
 import lombok.Data;
 
 @Data
 public class ConfigurationBuilder {
+	
+	public static Object load(Configuration config)throws ScimException {
+		try {
+			Class<?> type = Class.forName(config.getImplClss());
+			String file_name = config.getFileName();
+			
+			return load(type,file_name);
+		} catch (ClassNotFoundException e) {
+			throw new ScimException(e);
+		}
+		
+	}
+	
 	public static <T> T load (Class<T> type, String file_name) throws ScimException {
 		T config;
-		
 		File file = new File(file_name);
 		if(file.exists() && file.isFile()) {
 			Gson gson = new GsonBuilder().disableHtmlEscaping().create();
@@ -36,7 +49,7 @@ public class ConfigurationBuilder {
 		}
 	}
 	
-	public static void save(Object config, String file_name) throws ScimException {
+	public static Configuration save(Object config, String file_name) throws ScimException {
 		GsonBuilder builder = new GsonBuilder();
 		Gson gson = builder.disableHtmlEscaping().setPrettyPrinting().create();
 		gson = builder.create();
@@ -49,6 +62,8 @@ public class ConfigurationBuilder {
 		} catch (Exception e) {
 			throw new ScimException(e) ;
 		}
+		
+		return new Configuration(file_name, config.getClass());
 	}
 	
 	public static String toJson(Object config) throws ScimException {

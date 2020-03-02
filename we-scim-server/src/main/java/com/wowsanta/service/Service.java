@@ -1,4 +1,4 @@
-package com.wowsanta.server;
+package com.wowsanta.service;
 
 import com.wowsanta.server.Filter;
 

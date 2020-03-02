@@ -1,11 +1,10 @@
 {
   "server": {
-    "port": 5000,
-    "maxThread": 10,
-    "minThread": 2,
-    "idleTime": 3000
+    "fileName": "../config/dev.server.5000.json",
+    "implClss": "com.wowsanta.server.spark.SparkServer"
   },
-  "services": {
-    "common": "../config/service.common.json"
-  }
+  "settings": {
+    "classes": "C:\\Work\\wow-git\\wescim\\we-scim-service\\bin\\main"
+  },
+  "classDirectory": ""
 }

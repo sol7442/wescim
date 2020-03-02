@@ -16,14 +16,14 @@ import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 
 import com.wowsanta.repository.RepositoryConfig;
 import com.wowsanta.repository.SessionFactory;
+import com.wowsanta.scim.ScimException;
 import com.wowsanta.scim.config.ConfigurationBuilder;
-import com.wowsanta.scim.config.ScimException;
 
 import lombok.Data;
 
 @Data
 public class MyBatisConfiguation extends RepositoryConfig {
-	
+	private String name;
 	private MyBatisDataSource dataInfo;
 	private String resourcePath;
 	

@@ -9,8 +9,8 @@ import com.wowsanta.repository.Session;
 import com.wowsanta.repository.SessionFactory;
 import com.wowsanta.repository.mybatis.MyBatisConfiguation;
 import com.wowsanta.repository.mybatis.MyBatisDataSource;
+import com.wowsanta.scim.ScimException;
 import com.wowsanta.scim.config.ConfigurationBuilder;
-import com.wowsanta.scim.config.ScimException;
 import com.wowsata.scim.UserRepository;
 
 public class MybatisTest {

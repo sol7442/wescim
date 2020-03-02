@@ -10,7 +10,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import com.wowsanta.scim.LOGGER;
-import com.wowsanta.scim.config.ScimException;
+import com.wowsanta.scim.ScimException;
 
 import lombok.Data;
 

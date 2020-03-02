@@ -3,8 +3,8 @@ package com.wowsanta.server.spark;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.wowsanta.scim.ScimException;
 import com.wowsanta.scim.config.ConfigurationBuilder;
-import com.wowsanta.scim.config.ScimException;
 
 import lombok.Data;
 

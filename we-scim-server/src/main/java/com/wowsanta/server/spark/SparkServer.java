@@ -9,7 +9,9 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import com.wowsanta.scim.LOGGER;
-import com.wowsanta.scim.config.ScimException;
+import com.wowsanta.scim.ScimException;
+import com.wowsanta.scim.config.Configuration;
+import com.wowsanta.scim.config.ConfigurationBuilder;
 import com.wowsanta.server.Server;
 
 import lombok.Builder;
@@ -17,7 +19,6 @@ import lombok.Data;
 import spark.Spark;
 
 @Data
-@Builder
 public class SparkServer implements Server {
 
 	private int port;
@@ -30,42 +31,33 @@ public class SparkServer implements Server {
 	private String trustStore;
 	private String trustStorePw;
 	
-	private transient Map<String, List<SparkService>> services;
+//	public static class SparkServerBuilder extends ConfigurationBuilder{
+//		public SparkServer build(String file_name) throws ScimException {
+//			return load(SparkServer.class, file_name);
+//		}
+//	}
+
+	public Configuration save(String file_name) throws ScimException {
+		return ConfigurationBuilder.save(this, file_name);
+	}
 	
 	public void registerService(String key, String value) throws ScimException{
 		
-		List<SparkService> service_list = null;
-		if(services == null) {
-			services  = new HashMap<String, List<SparkService>>();
-			service_list = services.get(key);
-			if(service_list == null) {
-				service_list = new ArrayList<SparkService>();
-				services.put(key, service_list);
-			}
-		}
-		
-		
-		
-		
-		
-		
-		
-		
 	}
-	
-	public void build() throws ScimException {
-//		Set<Entry<String,String>> service_entris = services.entrySet();
-//		for (Entry<String, String> entry : service_entris) {
-//			String service_name = entry.getKey();
-//			String service_file = entry.getValue();
-//			
-//			
-//			System.out.println("service_name  : " + service_name);
-//			System.out.println("service_name  : " + service_file);
-//			
-//			
-//		}
-	}
+//	
+//	public void build() throws ScimException {
+////		Set<Entry<String,String>> service_entris = services.entrySet();
+////		for (Entry<String, String> entry : service_entris) {
+////			String service_name = entry.getKey();
+////			String service_file = entry.getValue();
+////			
+////			
+////			System.out.println("service_name  : " + service_name);
+////			System.out.println("service_name  : " + service_file);
+////			
+////			
+////		}
+//	}
 	
 	
 	@Override

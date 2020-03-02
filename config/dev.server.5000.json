@@ -2,5 +2,5 @@
   "port": 5000,
   "maxThread": 10,
   "minThread": 2,
-  "idleTime": 3000
+  "idleTime": 2000
 }

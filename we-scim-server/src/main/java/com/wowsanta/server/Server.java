@@ -1,6 +1,6 @@
 package com.wowsanta.server;
 
-import com.wowsanta.scim.config.ScimException;
+import com.wowsanta.scim.ScimException;
 
 public interface Server {
 	

@@ -1,4 +1,4 @@
-package com.wowsanta.scim.config;
+package com.wowsanta.scim;
 
 public class ScimException extends Exception{
 	/**

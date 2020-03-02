@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.wowsanta.server.Filter;
-import com.wowsanta.server.Service;
+import com.wowsanta.service.Service;
 
 import lombok.Builder;
 import lombok.Data;
