@@ -40,7 +40,7 @@ public class ProviderTest {
 			Properties prop = new Properties();
 			prop.put(ServiceStructure.DOMAIN, "local.dev.scim");
 			prop.put(ServiceStructure.REPOSITORY, "hibernate");
-			prop.put(ServiceStructure.CLASSES,"../we-scim-service/bin");
+			prop.put(ServiceStructure.CLASSES,"../we-scim-service/bin/main");
 			
 			
 			provider.setSettings(prop);

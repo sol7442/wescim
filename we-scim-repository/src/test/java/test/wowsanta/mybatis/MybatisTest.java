@@ -12,7 +12,6 @@ import com.wowsanta.repository.mybatis.MyBatisConfiguration;
 import com.wowsanta.scim.ScimException;
 import com.wowsanta.scim.config.Configuration;
 import com.wowsanta.scim.config.ConfigurationBuilder;
-import com.wowsata.scim.UserRepository;
 
 public class MybatisTest {
 

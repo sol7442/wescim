@@ -21,6 +21,12 @@ public class MyBatisSession implements Session{
 	public <T> T getRepository(Class<T> type) {
 		return session.getMapper(type);
 	}
-	
-	
+	@Override
+	public void commit() {
+		this.session.commit();
+	}
+	@Override
+	public void rollback() {
+		this.session.rollback();
+	}
 }

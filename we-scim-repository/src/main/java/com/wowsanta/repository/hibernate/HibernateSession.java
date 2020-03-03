@@ -2,15 +2,18 @@ package com.wowsanta.repository.hibernate;
 
 import java.io.IOException;
 
-import com.wowsanta.repository.Repository;
+import org.hibernate.Transaction;
+
 import com.wowsanta.repository.Session;
 
 public class HibernateSession implements Session{
 	
 	private org.hibernate.Session hibernateSession;
+	private Transaction transaction;
 	
 	public HibernateSession(org.hibernate.Session session) {
 		hibernateSession = session;
+		transaction = session.beginTransaction();
 	}
 
 	@Override
@@ -35,6 +38,16 @@ public class HibernateSession implements Session{
 //		}
 		
 		return obj;
+	}
+
+	@Override
+	public void commit() {
+		this.transaction.commit();
+	}
+
+	@Override
+	public void rollback() {
+		this.transaction.rollback();
 	}
 
 }

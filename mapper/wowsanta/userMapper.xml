@@ -1,7 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.wowsata.scim.UserRepository">
+<mapper namespace="com.wowsanta.scim.repository.UserRepository">
 	<select id="getTotalCount" resultType="java.lang.Integer">
-		SELECT COUNT(*) FROM SCIM_USER
+		SELECT COUNT(*) FROM WS_SCIM_USER
 	</select>
+	<select id="read" resultMap="ScimUser" parameterType="java.lang.String">
+		SELECT 
+			*
+		FROM WS_SCIM_USER
+		WHERE 
+			id = #{id} 
+		
+	</select>
+	<insert id="create" parameterType="com.wowsanta.scim.entity.ScimUser">
+		INSERT INTO WS_SCIM_USER 
+			(id,name,createTime,modifyTime,expireTime,active) 
+		VALUES 
+			(#{id},#{name},#{meta.created},#{meta.lastModified},#{meta.expire},#{meta.active})
+	</insert>
+	<update id="update">
+		UPDATE WS_SCIM_USER
+		SET name 		= #{name},
+			createTime 	= #{meta.created},
+			modifyTime 	= #{meta.lastModified},
+			expireTime 	= #{meta.expire},
+			active 		= #{meta.active}
+		WHERE id = #{id} 
+	</update>
+	<resultMap id="ScimUser" type="com.wowsanta.scim.entity.ScimUser">
+		<id property="id" column="id" />
+		<result property="name" 				column="name" />
+		<result property="meta.created" 		column="createTime" />
+		<result property="meta.lastModified" 	column="modifyTime" />
+		<result property="meta.expire" 			column="expireTime" />
+		<result property="meta.active" 			column="active" />
+	</resultMap>
 </mapper>

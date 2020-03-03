@@ -29,7 +29,7 @@ public class EntityHandler extends AnnotationHandler {
 				String domain 		= getRealDomain(entity_annotation.domain());
 				String name   		= entity_annotation.name();
 				
-				Domain.Key key = new Domain.Key(name,domain);
+				Domain.Key key = new Domain.Key(domain,name);
 				
 				Entity entity = new Entity();
 				entity.setClassName(class_name);
