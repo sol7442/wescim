@@ -5,7 +5,7 @@
   },
   "settings": {
     "DOMAIN": "local.dev.scim",
-    "CLASSES": "../we-scim-service/bin",
+    "CLASSES": "../we-scim-service/bin/main",
     "REPOSITORY": "hibernate"
   }
 }
