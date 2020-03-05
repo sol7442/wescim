@@ -69,7 +69,7 @@ public class ProviderAgent {
 		ServiceStructureBuilder builder = ServiceStructure.builder()
 				.setProperty(settings)
 				.addAnnotationHandler(new EntityHandler());
-				
+		builder.build();
 		
 		RepositoryManager repositoryManager = RepositoryManager.getInstance();
 		Set<Entry<Domain.Key, Configuration>> repository_set = repositoris.entrySet();
@@ -80,7 +80,7 @@ public class ProviderAgent {
 		}
 		
 		
-		builder.build();
+		
 		
 		LOGGER.system.info("SYSTEM BUILD ---- : " + ServiceStructure.getInstance());
 	}

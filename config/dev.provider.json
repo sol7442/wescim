@@ -1,11 +1,11 @@
 {
   "server": {
-    "fileName": "../config/dev.server.5000.json",
+    "fileName": "./config/dev.server.5000.json",
     "implClss": "com.wowsanta.server.spark.SparkServer"
   },
   "settings": {
     "DOMAIN": "local.dev.scim",
-    "CLASSES": "../we-scim-service/bin/main",
+    "CLASSES": "./we-scim-service/bin;./bin",
     "REPOSITORY": "hibernate"
   }
 }

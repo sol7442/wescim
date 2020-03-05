@@ -5,6 +5,7 @@ import com.wowsanta.scim.message.SCIMListResponse;
 import com.wowsanta.scim.message.SCIMSearchRequest;
 
 public interface Repository <T extends Resource> {
+	public int size(String filter);
 	public void create(T resource);
 	public T read(String id);
 	public void update(T resource);

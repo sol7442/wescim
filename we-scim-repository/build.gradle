@@ -2,6 +2,10 @@ dependencies {
 	compile project(':we-scim-core')
 	compile group: 'org.mybatis', name: 'mybatis', version: '3.5.4'
 	compile group: 'org.hibernate', name: 'hibernate-gradle-plugin', version: '5.3.11.Final'
+	//compile group: 'javassist', name: 'javassist', version: '3.3'
+	//compile group: 'jboss', name: 'javassist', version: '3.1'
+	compile group: 'org.javassist', name: 'javassist', version: '3.26.0-GA'
+	
 	compile group: 'org.apache.commons', name: 'commons-dbcp2', version: '2.7.0'
 	
 	compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.25.2'	
@@ -9,7 +13,7 @@ dependencies {
 	compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.12'
 	compile group: 'com.microsoft.sqlserver', name: 'mssql-jdbc', version: '7.0.0.jre8'
 	compile files('../libs/ojdbc6.jar')
-
+	compile files('../libs/tibero6-jdbc-14.jar')
 
 /*
 	compile project(':ws-scim-util')

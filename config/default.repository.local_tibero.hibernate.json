@@ -1,0 +1,12 @@
+{
+  "dataInfo": {
+    "driver": "com.tmax.tibero.jdbc.TbDriver",
+    "url": "jdbc:tibero:thin:@127.0.0.1:8629:tibero",
+    "user": "tibero",
+    "password":"tmax"
+  },
+  "dialect": "com.wowsanta.repository.hibernate.Tibero6Dialect",
+  "showsql": "true",
+  "formatsql": "true",
+  "hbm2ddlauto": "update"
+}

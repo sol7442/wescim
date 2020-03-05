@@ -9,6 +9,7 @@ import java.util.Set;
 
 import com.wowsanta.scim.annotation.AnnotationHandler;
 import com.wowsanta.scim.entity.Entity;
+import com.wowsanta.scim.type.RestfulServiceType;
 import com.wowsanta.util.file.FileFinder;
 
 import lombok.Data;
@@ -41,7 +42,10 @@ public class ServiceStructure {
 			
 		}
 		public ServiceStructureBuilder setProperty(Properties settings) {
-			classFileFinder.addDirectory(settings.getProperty(CLASSES));
+			String[] class_path_array = settings.getProperty(CLASSES).split(";");
+			for (String class_path : class_path_array) {
+				classFileFinder.addDirectory(class_path);	
+			}
 			
 			ServiceStructure.getInstance().property = settings;
 			return this;
@@ -81,5 +85,6 @@ public class ServiceStructure {
 		}
 		this.repsitories.put(key, config);
 	}
+
 }
 

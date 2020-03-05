@@ -8,6 +8,7 @@ import com.wowsanta.scim.annotation.ENTITY;
 import com.wowsanta.scim.config.Domain;
 import com.wowsanta.scim.config.ServiceStructure;
 import com.wowsanta.scim.entity.Entity;
+import com.wowsanta.scim.type.RestfulServiceType;
 import com.wowsanta.util.log.LOGGER;
 
 public class EntityHandler extends AnnotationHandler {
@@ -35,8 +36,10 @@ public class EntityHandler extends AnnotationHandler {
 				entity.setClassName(class_name);
 				entity.setImplClss(clazz);
 				entity.setRepository(repository);
-				
-				structure.addEntity(key,entity);
+				for (RestfulServiceType restful_type : entity_annotation.restful()) {
+					entity.addRestfulService(restful_type);
+				}
+				structure.addEntity(key, entity);
 			}
 			
 		} catch (ClassNotFoundException e) {

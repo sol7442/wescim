@@ -1,43 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.wowsanta.scim.repository.UserRepository">
+<mapper namespace="com.wowsanta.scim.repository.JobRepository">
 	<select id="size" resultType="java.lang.Integer" parameterType="java.lang.String">
-		SELECT COUNT(*) FROM WS_SCIM_USER
+		SELECT COUNT(*) FROM WS_SCIM_JOB
 	</select>
-	<select id="read" resultMap="ScimUser" parameterType="java.lang.String">
+	<select id="read" resultMap="ScimJob" parameterType="java.lang.String">
 		SELECT 
 			*
-		FROM WS_SCIM_USER
+		FROM WS_SCIM_JOB
 		WHERE 
 			id = #{id} 
 		
 	</select>
-	<insert id="create" parameterType="com.wowsanta.scim.entity.ScimUser">
-		INSERT INTO WS_SCIM_USER 
-			(id,name,createTime,modifyTime,expireTime,active,org,pos,job) 
+	<insert id="create" parameterType="com.wowsanta.scim.entity.ScimJob">
+		INSERT INTO WS_SCIM_JOB 
+			(id,name,createTime,modifyTime,expireTime,active) 
 		VALUES 
-			(#{id},#{name},#{meta.created},#{meta.lastModified},#{meta.expire},#{meta.active},#{attr.org.id},#{attr.pos.id},#{attr.job.id})
+			(#{id},#{name},#{meta.created},#{meta.lastModified},#{meta.expire},#{meta.active})
 	</insert>
 	<update id="update">
-		UPDATE WS_SCIM_USER
+		UPDATE WS_SCIM_JOB
 		SET name 		= #{name},
 			createTime 	= #{meta.created},
 			modifyTime 	= #{meta.lastModified},
 			expireTime 	= #{meta.expire},
-			org 		= #{attr.org.id},
-			pos 		= #{attr.pos.id},
-			job 		= #{attr.job.id}
+			active 		= #{meta.active}
 		WHERE id = #{id} 
 	</update>
-	<resultMap id="ScimUser" type="com.wowsanta.scim.entity.ScimUser">
+	<resultMap id="ScimJob" type="com.wowsanta.scim.entity.ScimJob">
 		<id property="id" column="id" />
 		<result property="name" 				column="name" />
 		<result property="meta.created" 		column="createTime" />
 		<result property="meta.lastModified" 	column="modifyTime" />
 		<result property="meta.expire" 			column="expireTime" />
 		<result property="meta.active" 			column="active" />
-		<result property="attr.org.id" 			column="org" />
-		<result property="attr.pos.id" 			column="pos" />
-		<result property="attr.job.id" 			column="job" />
 	</resultMap>
 </mapper>

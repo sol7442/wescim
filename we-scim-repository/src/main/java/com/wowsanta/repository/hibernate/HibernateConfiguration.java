@@ -52,6 +52,7 @@ public class HibernateConfiguration extends RepositoryConfig {
 			
 			ServiceStructure service_structure = ServiceStructure.getInstance();
 			Set<Entry<Domain.Key, Entity>> entity_set = service_structure.getEntitySet();
+			LOGGER.system.debug("regist entity class : {}",entity_set.size());
 			for (Entry<Domain.Key, Entity> entry : entity_set) {
 				Entity entity = entry.getValue();
 				Domain.Key key = entry.getKey();

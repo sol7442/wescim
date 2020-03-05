@@ -1,5 +1,5 @@
 dependencies {
-	compile project(':we-scim-server')
+	compile project(':we-scim-service')
 
 }
 
