@@ -3,6 +3,7 @@ package com.wowsanta.scim.config;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.lang.reflect.Type;
 import java.util.Date;
 
 import com.google.gson.Gson;
@@ -15,7 +16,7 @@ import lombok.Data;
 
 @Data
 public class ConfigurationBuilder {
-	
+	public static GsonBuilder builder = new GsonBuilder();
 	public static Object load(Configuration config)throws ScimException {
 		try {
 			Class<?> type = Class.forName(config.getImplClss());
@@ -32,7 +33,8 @@ public class ConfigurationBuilder {
 		T config;
 		File file = new File(file_name);
 		if(file.exists() && file.isFile()) {
-			Gson gson = new GsonBuilder().disableHtmlEscaping().create();
+			//Gson gson = new GsonBuilder().disableHtmlEscaping().create();
+			Gson gson = builder.disableHtmlEscaping().create();
 			try (JsonReader reader = new JsonReader(new FileReader(file))) {
 				config = gson.fromJson(reader, type);
 				
@@ -48,9 +50,10 @@ public class ConfigurationBuilder {
 			throw new ScimException("FILE NOT FOUND : " + file_name);
 		}
 	}
-	
+	public static void save(Type type, Object typeAdapter) {
+		builder.registerTypeAdapter(type, typeAdapter);
+	}
 	public static Configuration save(Object config, String file_name) throws ScimException {
-		GsonBuilder builder = new GsonBuilder();
 		Gson gson = builder.disableHtmlEscaping().setPrettyPrinting().create();
 		gson = builder.create();
 		try (FileWriter writer = new FileWriter(file_name)) {
@@ -67,7 +70,6 @@ public class ConfigurationBuilder {
 	}
 	
 	public static String toJson(Object config) throws ScimException {
-		GsonBuilder builder = new GsonBuilder();
 		Gson gson = builder.disableHtmlEscaping().setPrettyPrinting().create();
 		try {
 			return gson.toJson(config);

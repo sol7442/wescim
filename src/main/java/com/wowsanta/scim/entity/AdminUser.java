@@ -13,7 +13,7 @@ import lombok.Data;
 
 @Entity
 @Table(name = "WS_ADMIN_USER")
-@ENTITY(name="ADMIN")
+@ENTITY(name="Admin_User")
 @Data
 public class AdminUser implements Resource{
 	@Id

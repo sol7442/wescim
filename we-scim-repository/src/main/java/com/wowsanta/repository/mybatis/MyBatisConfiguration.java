@@ -3,7 +3,8 @@ package com.wowsanta.repository.mybatis;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-
+import java.util.Set;
+import java.util.Map.Entry;
 
 import org.apache.ibatis.builder.xml.XMLMapperBuilder;
 import org.apache.ibatis.datasource.pooled.PooledDataSource;
@@ -19,6 +20,7 @@ import com.wowsanta.repository.RepositoryConfig;
 import com.wowsanta.repository.SessionFactory;
 import com.wowsanta.scim.ScimException;
 import com.wowsanta.scim.config.ConfigurationBuilder;
+import com.wowsanta.scim.entity.EntityInfo;
 
 import lombok.Data;
 
@@ -26,7 +28,7 @@ import lombok.Data;
 public class MyBatisConfiguration extends RepositoryConfig  {
 	
 	private DataSource dataInfo;
-	private String resourcePath;
+	private String mapperPath;
 	
 	private String name;
 	private boolean autoCommit 	= false;
@@ -38,7 +40,7 @@ public class MyBatisConfiguration extends RepositoryConfig  {
 	
 	
 	@Override
-	public SessionFactory build() throws ScimException {
+	public SessionFactory build(Set<Entry<String, EntityInfo>> entity_set) throws ScimException {
 		try {
 			PooledDataSource dataSource = new PooledDataSource(
 					dataInfo.getDriver(),
@@ -61,7 +63,7 @@ public class MyBatisConfiguration extends RepositoryConfig  {
 			Configuration config = new Configuration();
 			config.setEnvironment(environment);
 			
-			File map_path = new File(resourcePath); 
+			File map_path = new File(mapperPath); 
 			if(map_path.isDirectory()) {
 				for (File map_file : map_path.listFiles()) {
 					if(map_file.getName().endsWith(".xml")) {

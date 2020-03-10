@@ -8,5 +8,9 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface SERVICE {
-
+	String name();
+	String entity();
+	String domain() default Constants.DEFATUL_DOMAIN;;
+	String method();
+	String url();
 }

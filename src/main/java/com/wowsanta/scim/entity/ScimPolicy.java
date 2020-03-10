@@ -20,7 +20,7 @@ import lombok.Data;
 
 @Entity
 @Table(name = "WS_SCIM_POLICY")
-@ENTITY(name="SCIM_POLICY")
+@ENTITY(name="Scim_Policy")
 @Data
 public class ScimPolicy implements Resource{
 	@Id

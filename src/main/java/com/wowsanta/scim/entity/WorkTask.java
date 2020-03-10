@@ -17,7 +17,7 @@ import lombok.Data;
 
 @Entity
 @Table(name = "WS_WORK_TASK")
-@ENTITY(name="WORK_TASK")
+@ENTITY(name="Work_Task")
 @Data
 public class WorkTask implements Resource{
 	

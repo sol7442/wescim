@@ -21,7 +21,7 @@ import lombok.ToString;
 
 @Entity
 @Table(name = "WS_SCIM_USER")
-@ENTITY(name=SCIM_ENTITY.USER)
+@ENTITY(name="Scim_User")
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true, exclude = {"meta", "groups"} )

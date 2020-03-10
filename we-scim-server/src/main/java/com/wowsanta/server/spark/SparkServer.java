@@ -1,12 +1,6 @@
 package com.wowsanta.server.spark;
 
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 
 import com.wowsanta.scim.ScimException;
 import com.wowsanta.scim.config.Configuration;
@@ -14,7 +8,6 @@ import com.wowsanta.scim.config.ConfigurationBuilder;
 import com.wowsanta.server.Server;
 import com.wowsanta.util.log.LOGGER;
 
-import lombok.Builder;
 import lombok.Data;
 import spark.Spark;
 

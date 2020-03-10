@@ -1,16 +1,21 @@
 package test.wowsanta.server;
 
+import java.lang.reflect.Type;
+import java.util.Map;
 import java.util.Properties;
 
 import org.junit.Test;
 
+import com.google.gson.reflect.TypeToken;
 import com.wowsanta.ProviderAgent;
 import com.wowsanta.repository.hibernate.HibernateConfiguration;
 import com.wowsanta.repository.mybatis.MyBatisConfiguration;
+import com.wowsanta.scim.ScimException;
 import com.wowsanta.scim.config.Configuration;
 import com.wowsanta.scim.config.ConfigurationBuilder;
-import com.wowsanta.scim.config.Domain;
-import com.wowsanta.scim.config.ServiceStructure;
+import com.wowsanta.scim.config.DomainKey;
+import com.wowsanta.scim.config.DomainKeyTypeAdapter;
+import com.wowsanta.server.ServiceStructure;
 import com.wowsanta.server.spark.SparkServer;
 
 
@@ -25,8 +30,30 @@ public class ProviderTest {
 			
 
 	@Test
+	public void load_provider_test() {
+		try {
+			
+			Type type = new TypeToken<Map<DomainKey, Configuration>>(){}.getType();
+			ConfigurationBuilder.builder.registerTypeAdapter(type, new DomainKeyTypeAdapter());
+			
+			ProviderAgent provider = ConfigurationBuilder.load(ProviderAgent.class, provider_config_file);
+			//System.out.println(ConfigurationBuilder.toJson(provider));
+			
+			provider.build();
+			
+			provider.initialize();
+			
+		} catch (ScimException e) {
+			e.printStackTrace();
+		}
+	}
+	//@Test
 	public void create_provider_test() {
 		try {
+			
+			Type type = new TypeToken<Map<DomainKey, Configuration>>(){}.getType();
+			ConfigurationBuilder.builder.registerTypeAdapter(type, new DomainKeyTypeAdapter());
+			
 			ProviderAgent provider = new ProviderAgent();
 			SparkServer server =  ConfigurationBuilder.load(SparkServer.class,server_config_5000_file);
 			provider.setServerConfig(server.save(server_config_5000_file));
@@ -34,18 +61,18 @@ public class ProviderTest {
 			Properties prop = new Properties();
 			prop.put(ServiceStructure.DOMAIN, "local.dev.scim");
 			prop.put(ServiceStructure.REPOSITORY, "hibernate");
-			prop.put(ServiceStructure.CLASSES,"./we-scim-service/bin;./bin");
+			prop.put(ServiceStructure.CLASSES,"./we-scim-service/bin;./bin;./bin/main");
 			
 			
 			provider.setSettings(prop);
-			provider.save(provider_config_file)	;
+
 			
 			Configuration mybatis_config = new Configuration(repository_config_file_1, MyBatisConfiguration.class);
 			Configuration hibernate_config = new Configuration(repository_config_file_2, HibernateConfiguration.class);
 			Configuration hibernate_tibero_config = new Configuration(repository_config_file_3, HibernateConfiguration.class);
 			
-			provider.addRepository(new Domain.Key("local.dev.scim","mybatis"),mybatis_config);
-			provider.addRepository(new Domain.Key("local.dev.scim","hibernate"),hibernate_tibero_config);
+			provider.addRepository(new DomainKey("local.dev.scim","mybatis"),mybatis_config);
+			provider.addRepository(new DomainKey("local.dev.scim","hibernate"),hibernate_config);
 			
 			provider.build();
 			provider.initialize();
@@ -53,7 +80,7 @@ public class ProviderTest {
 			System.out.println("[service structure]------------------");
 			System.out.println(ConfigurationBuilder.toJson(ServiceStructure.getInstance()));
 			
-			
+			ConfigurationBuilder.save(provider, provider_config_file);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

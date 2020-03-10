@@ -17,7 +17,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "WS_SYSTEM_USER")
-@ENTITY(name="SYSTEM_USER")
+@ENTITY(name="System_User")
 public class SystemUser implements Resource {
 	
 	@Id

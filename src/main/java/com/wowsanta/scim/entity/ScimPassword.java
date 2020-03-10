@@ -16,7 +16,7 @@ import lombok.Data;
 
 @Entity
 @Table(name = "WS_SCIM_PASSWORD")
-@ENTITY(name="PASSWORD")
+@ENTITY(name="Scim_Password")
 @Data
 public class ScimPassword implements Resource {
 	

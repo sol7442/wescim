@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
 
 @Entity
 @Table(name = "WS_SCIM_ORG")
-@ENTITY(name=SCIM_ENTITY.ORG)
+@ENTITY(name="Scim_Org")
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class ScimOrg extends ScimResource{

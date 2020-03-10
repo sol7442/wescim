@@ -41,7 +41,7 @@ public class FileFinder {
 		}else {
 			for (FileFindHandler handler : handlers) {
 				if(handler.condition(file)) {
-					return handler.visit(root, file);
+					handler.visit(root, file);
 				}
 			}
 		}

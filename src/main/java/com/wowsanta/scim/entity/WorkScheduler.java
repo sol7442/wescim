@@ -16,7 +16,7 @@ import lombok.Data;
 
 @Entity
 @Table(name = "WS_WORK_SCHEDULER")
-@ENTITY(name="WORK_SCHEDULER")
+@ENTITY(name="Work_Scheduler")
 @Data
 public class WorkScheduler implements Resource{
 	@Id

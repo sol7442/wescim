@@ -5,7 +5,7 @@
     "user": "root",
     "encPw": "EQjuujwLTEBklr1Oq77lQg=="
   },
-  "resourcePath": "../mapper/wowsanta",
+  "mapperPath": "../mapper/wowsanta",
   "name": "mybatis",
   "autoCommit": false,
   "loginTimeout": 1000,

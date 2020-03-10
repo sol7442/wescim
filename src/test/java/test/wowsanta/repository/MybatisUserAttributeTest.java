@@ -39,7 +39,7 @@ public class MybatisUserAttributeTest {
 			MyBatisConfiguration mybatis_config;
 			try {
 				mybatis_config = ConfigurationBuilder.load(MyBatisConfiguration.class, repository_config_file_1);
-				session_factory = mybatis_config.build();
+				session_factory = mybatis_config.build(null);
 			} catch (ScimException e) {
 				e.printStackTrace();
 			}

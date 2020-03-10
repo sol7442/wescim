@@ -15,7 +15,7 @@ import lombok.Data;
 
 @Entity
 @Table(name = "WS_RESOURCE_HISTORY")
-@ENTITY(name="RESOURCE_HISTORY")
+@ENTITY(name="Resource_History")
 @Data
 public class ResourceHistory implements Resource {
 	

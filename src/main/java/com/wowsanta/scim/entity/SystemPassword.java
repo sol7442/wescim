@@ -19,7 +19,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "WS_SYSTEM_PASSWORD")
-@ENTITY(name="SYSTEM_PASSWORD")
+@ENTITY(name="System_Password")
 public class SystemPassword implements Resource {
 	
 	@Embeddable

@@ -4,12 +4,14 @@ import org.junit.Test;
 
 import com.wowsanta.repository.RepositoryConfig;
 import com.wowsanta.repository.RepositoryManager;
+import com.wowsanta.repository.SessionFactory;
 import com.wowsanta.repository.hibernate.HibernateConfiguration;
 import com.wowsanta.repository.mybatis.MyBatisConfiguration;
 import com.wowsanta.scim.ScimException;
 import com.wowsanta.scim.config.Configuration;
 import com.wowsanta.scim.config.ConfigurationBuilder;
 import com.wowsanta.scim.config.Domain;
+import com.wowsanta.scim.config.DomainKey;
 
 public class RepositoryManagerTest {
 
@@ -41,8 +43,13 @@ public class RepositoryManagerTest {
 			Configuration mybatis_config = new Configuration(repository_config_file_1, MyBatisConfiguration.class);
 			Configuration hibernate_config = new Configuration(repository_config_file_2, HibernateConfiguration.class);
 			
-			manager.addRepository(new Domain.Key("local.dev.scim","mybatis"),(RepositoryConfig) mybatis_config);
-			manager.addRepository(new Domain.Key("local.dev.scim","hibernate"),(RepositoryConfig) hibernate_config);
+			SessionFactory mybatis_factory = ((RepositoryConfig) mybatis_config).build(null);
+			SessionFactory hibernate_factory = ((RepositoryConfig) hibernate_config).build(null);
+			
+			
+			
+			manager.addRepository(new DomainKey("local.dev.scim","mybatis"),mybatis_factory);
+			manager.addRepository(new DomainKey("local.dev.scim","hibernate"),hibernate_factory);
 			
 			System.out.println(ConfigurationBuilder.toJson(manager));
 			

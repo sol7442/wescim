@@ -1,18 +1,16 @@
-package com.wowsanta.scim.config;
+package com.wowsanta.server;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
 
 import com.wowsanta.scim.annotation.AnnotationHandler;
-import com.wowsanta.scim.entity.Entity;
-import com.wowsanta.scim.type.RestfulServiceType;
+import com.wowsanta.scim.config.Configuration;
+import com.wowsanta.scim.config.DomainKey;
+import com.wowsanta.scim.entity.EntityInfo;
 import com.wowsanta.util.file.FileFinder;
 
-import lombok.Data;
 
 public class ServiceStructure {
 	
@@ -20,11 +18,12 @@ public class ServiceStructure {
 	public transient static final String DOMAIN  	= "DOMAIN";
 	public transient static final String REPOSITORY = "REPOSITORY";
 	
-	private HashMap<Domain.Key,Entity> entitis;
-	private HashMap<Domain.Key,Configuration> repsitories;
+	private HashMap<String, EntityInfo> entitis = new HashMap<>();;
+	private HashMap<DomainKey,Configuration> repsitories = new HashMap<>();;
 	
 	private Properties property;
-	private transient List<AnnotationHandler> annotationHandlers = new ArrayList<AnnotationHandler>();
+	
+	//private transient List<AnnotationHandler> annotationHandlers = new ArrayList<AnnotationHandler>();
 	
 	private transient static ServiceStructure instance = null;
 	
@@ -67,22 +66,16 @@ public class ServiceStructure {
 		}
 		return defulat;
 	}
-	public void addEntity(Domain.Key key, Entity entity) {
-		if(entitis == null) {
-			entitis = new HashMap<>();
-		}
-		entitis.put(key, entity);
+	public EntityInfo getEntity(String key) {
+		return entitis.get(key);
 	}
-	public Set<Entry<Domain.Key, Entity>> getEntitySet(){
-		if(entitis == null) {
-			entitis = new HashMap<>();
-		}
+	public void addEntity(EntityInfo entity) {
+		entitis.put(entity.getName(), entity);
+	}
+	public Set<Entry<String, EntityInfo>> getEntitySet(){
 		return this.entitis.entrySet();
 	}
-	public void addRepository(Domain.Key key, Configuration config) {
-		if(this.repsitories == null) {
-			this.repsitories = new HashMap<>();
-		}
+	public void addRepository(DomainKey key, Configuration config) {
 		this.repsitories.put(key, config);
 	}
 

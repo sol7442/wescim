@@ -16,7 +16,7 @@ import lombok.Data;
 
 @Entity
 @Table(name = "WS_POLICY_USER")
-@ENTITY(name="POLICY_USER", restful= {RestfulServiceType.READ})
+@ENTITY(name="Policy_User", restful= {RestfulServiceType.READ})
 @Data
 public class PolicyUser {
 	

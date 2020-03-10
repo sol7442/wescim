@@ -10,12 +10,9 @@ import org.hibernate.cfg.Environment;
 import com.wowsanta.repository.DataSource;
 import com.wowsanta.repository.RepositoryConfig;
 import com.wowsanta.repository.SessionFactory;
-import com.wowsanta.repository.mybatis.MyBatisConfiguration;
 import com.wowsanta.scim.ScimException;
 import com.wowsanta.scim.config.ConfigurationBuilder;
-import com.wowsanta.scim.config.Domain;
-import com.wowsanta.scim.config.ServiceStructure;
-import com.wowsanta.scim.entity.Entity;
+import com.wowsanta.scim.entity.EntityInfo;
 import com.wowsanta.util.log.LOGGER;
 
 import lombok.Data;
@@ -32,7 +29,7 @@ public class HibernateConfiguration extends RepositoryConfig {
 	
 	
 	@Override
-	public SessionFactory build() throws ScimException {
+	public SessionFactory build(Set<Entry<String, EntityInfo>> entity_set) throws ScimException {
 		HibernateSessionFactory session_factory  = new HibernateSessionFactory();
 		
 		try {
@@ -50,18 +47,16 @@ public class HibernateConfiguration extends RepositoryConfig {
 			properties.put(Environment.CURRENT_SESSION_CONTEXT_CLASS,"thread");
 			config.setProperties(properties);
 			
-			ServiceStructure service_structure = ServiceStructure.getInstance();
-			Set<Entry<Domain.Key, Entity>> entity_set = service_structure.getEntitySet();
-			LOGGER.system.debug("regist entity class : {}",entity_set.size());
-			for (Entry<Domain.Key, Entity> entry : entity_set) {
-				Entity entity = entry.getValue();
-				Domain.Key key = entry.getKey();
-				
-				config.addAnnotatedClass(entity.getImplClss());
-				
-				LOGGER.system.debug("{} : {}",key,entity);
+			if(entity_set != null) {
+				LOGGER.system.debug("regist entity class : {}",entity_set.size());
+				for (Entry<String, EntityInfo> entry : entity_set) {
+					EntityInfo entity = entry.getValue();
+					String name= entry.getKey();
+					config.addAnnotatedClass(entity.getImplClss());
+					
+					LOGGER.system.debug("{} : {}",name,entity);
+				}	
 			}
-			
 			
 			org.hibernate.SessionFactory sessionFactory = config.buildSessionFactory();
 			session_factory.setHibernateSessionFactory(sessionFactory);

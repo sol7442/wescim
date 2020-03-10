@@ -23,7 +23,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "WS_SCIM_SYSTEM")
-@ENTITY(name="SYSTEM")
+@ENTITY(name="Scim_System")
 public class ScimSystem implements Resource {
 	
 	public enum Type{
