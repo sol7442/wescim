@@ -63,24 +63,24 @@ public class ScimAttributeOp {
 	private EqOp jobOp;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "org")
+	@JoinColumn(name = "orgId")
 	private ScimOrg org;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "pos")
+	@JoinColumn(name = "posId")
 	private ScimPos pos;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "job")
+	@JoinColumn(name = "jobId")
 	private ScimJob job;
 	
-	@Column(name = "org_pos")
+	@Column(name = "logic1")
 	@Enumerated(EnumType.STRING)
-	private LogicOp org_pos;
+	private LogicOp logic1;
 	
-	@Column(name = "opr_job")
+	@Column(name = "logic2")
 	@Enumerated(EnumType.STRING)
-	private LogicOp opr_job;
+	private LogicOp logic2;
 	
 	
 	public ScimAttributeOp(ScimOrg org, ScimPos pos, ScimJob job) {
@@ -95,10 +95,10 @@ public class ScimAttributeOp {
 		boolean pos_res = res_op(this.pos, this.posOp, attr.getPos());
 		boolean job_res = res_op(this.job, this.jobOp, attr.getJob());
 		
-		boolean opr_res	= logic_op(org_res,org_pos,pos_res);
-		boolean result  = logic_op(opr_res,opr_job,job_res);
+		boolean logic_1_res	 = logic_op(org_res,logic1,pos_res);
+		boolean logic_2_res  = logic_op(logic_1_res,logic2,job_res);
 				
-		return result;
+		return logic_2_res;
 	}
 
 	private boolean logic_op(boolean val1, LogicOp op, boolean val2) {

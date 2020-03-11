@@ -26,7 +26,7 @@ public class PolicyAttribute {
 	private String id;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "policy")
+	@JoinColumn(name = "policyId")
 	private ScimPolicy policy;
 	
 	
