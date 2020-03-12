@@ -1,0 +1,16 @@
+{
+  "dataInfo": {
+    "driver": "com.mysql.cj.jdbc.Driver",
+    "url": "jdbc:mysql://wession.com:3306/ws_scim_v1?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC",
+    "user": "root",
+    "encPw": "EQjuujwLTEBklr1Oq77lQg=="
+  },
+  "mapperPath": "../mapper/wowsanta",
+  "name": "mybatis",
+  "autoCommit": false,
+  "loginTimeout": 1000,
+  "networkTimeout": 2000,
+  "maxActivePool": 10,
+  "maxIdelPool": 2,
+  "pingConnectionNotUse": 60000
+}

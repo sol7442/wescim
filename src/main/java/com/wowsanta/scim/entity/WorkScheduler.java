@@ -9,14 +9,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.wowsanta.scim.annotation.ENTITY;
+import com.wowsanta.scim.annotation.SCIM_ENTITY;
 import com.wowsanta.scim.entity.Resource;
 
 import lombok.Data;
 
 @Entity
 @Table(name = "WS_WORK_SCHEDULER")
-@ENTITY(name="Work_Scheduler")
+@SCIM_ENTITY(name="Work_Scheduler")
 @Data
 public class WorkScheduler implements Resource{
 	@Id

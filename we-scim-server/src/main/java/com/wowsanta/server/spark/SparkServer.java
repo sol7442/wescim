@@ -2,14 +2,25 @@ package com.wowsanta.server.spark;
 
 
 
+import java.util.Set;
+import java.util.Date;
+import java.util.Map.Entry;
+
+import com.tmax.tibero.jdbc.data.charset.SingleByteEncoder;
 import com.wowsanta.scim.ScimException;
 import com.wowsanta.scim.config.Configuration;
 import com.wowsanta.scim.config.ConfigurationBuilder;
+import com.wowsanta.scim.entity.EntityInfo;
+import com.wowsanta.scim.service.RestfulService;
 import com.wowsanta.server.Server;
+import com.wowsanta.server.ServiceStructure;
 import com.wowsanta.util.log.LOGGER;
 
 import lombok.Data;
+import spark.Route;
 import spark.Spark;
+import spark.route.HttpMethod;
+import static spark.Spark.*;
 
 @Data
 public class SparkServer implements Server {
@@ -23,6 +34,8 @@ public class SparkServer implements Server {
 	private String keyStorePw;
 	private String trustStore;
 	private String trustStorePw;
+	
+	private String front = "./front";
 	
 //	public static class SparkServerBuilder extends ConfigurationBuilder{
 //		public SparkServer build(String file_name) throws ScimException {
@@ -60,20 +73,62 @@ public class SparkServer implements Server {
 		
 		Spark.port(this.port);
 		Spark.threadPool(maxThread,minThread,idleTime);
-		 
+		Spark.staticFiles.externalLocation(this.front);
+		
+		registryRestFul();
 		//Spark.secure(keystoreFile, keystorePassword, truststoreFile, truststorePassword);
 	}
 	
-//	public void addService(String name, String file) {
-//		if(this.services == null) {
-//			this.services = new HashMap<String, String>();
-//		}
-//		this.services.put(name,file);
-//	}
+
+	private void registryRestFul() {
+		Set<Entry<String, EntityInfo>> entity_entry_set = ServiceStructure.getInstance().getEntitySet();
+		for (Entry<String, EntityInfo> entity_entry : entity_entry_set) {
+			Set<Entry<String, RestfulService>> service_entry_set = entity_entry.getValue().getRestfulServiceSet();
+			for (Entry<String, RestfulService> service_entry : service_entry_set) {
+				try {
+					HttpMethod method = HttpMethod.valueOf(service_entry.getValue().getMethod());
+					
+					RestfulService service = service_entry.getValue();
+					service.setEntity(entity_entry.getValue());
+					
+					switch (method) {
+					case before:
+						//before(service_entry.getValue().getUrl(),newFilter(control_info.getControlClass()));
+						break;
+					case after:
+						//after(control_info.getPath(),newFilter(control_info.getControlClass()));
+						break;
+					case post:
+						post(service_entry.getValue().getUrl(),(Route)service);
+						break;
+					case get:
+						get(service_entry.getValue().getUrl(),(Route)service);
+						break;
+					case patch:
+						patch(service_entry.getValue().getUrl(),(Route)service);
+						break;
+					case put:
+						put(service_entry.getValue().getUrl(),(Route)service);
+						break;
+					case delete:
+						delete(service_entry.getValue().getUrl(),(Route)service);
+						break;
+					default:
+						break;
+					}
+				}catch (Exception e) {
+					LOGGER.error(e);
+				}finally {
+					LOGGER.system.info("{} - {} : {} > {}",entity_entry.getKey(),service_entry.getKey(),service_entry.getValue().getMethod(),service_entry.getValue().getUrl() );
+				}
+			}
+		}
+	}
 
 	@Override
 	public void start() {
 		Spark.awaitInitialization();
+		LOGGER.system.info("SPARK SERVER STARTED :  " + new Date());
 	}
 
 	@Override

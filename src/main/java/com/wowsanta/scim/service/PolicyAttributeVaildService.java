@@ -12,7 +12,7 @@ import spark.Response;
 @Data
 @EqualsAndHashCode(callSuper=false)
 @Builder
-@SERVICE(name="get", entity="Policy_Attr",method = "valid", url="/Policy/Attrs/vaild")
+@SERVICE(name="valid", entity="Policy_Attr",method = "get", url="/Policy/Attrs/vaild")
 public class PolicyAttributeVaildService extends AbstractEntityRestfulService {
 	String name;
 	String method;

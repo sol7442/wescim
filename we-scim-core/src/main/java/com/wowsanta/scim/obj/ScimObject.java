@@ -42,12 +42,6 @@ public class ScimObject extends ConfigData{
 		}
 		throw new ScimException("BUILDER NOT IMPLIMENT EXCEPTION : ");
 	}
-	
-//    public T cast(Object obj) {
-//        if (obj != null && !isInstance(obj))
-//            throw new ClassCastException(cannotCastMsg(obj));
-//        return (T) obj;
-//    }
     
 	public static class MapTypeAdapter implements JsonSerializer<Map<String, Object>>{
 		@Override

@@ -11,14 +11,14 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.wowsanta.scim.annotation.ENTITY;
+import com.wowsanta.scim.annotation.SCIM_ENTITY;
 import com.wowsanta.scim.entity.Resource;
 
 import lombok.Data;
 
 @Entity
 @Table(name = "WS_WORK_JOB")
-@ENTITY(name="Work_Job")
+@SCIM_ENTITY(name="Work_Job")
 @Data
 public class WorkJob implements Resource{
 	@Id

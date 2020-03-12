@@ -2,6 +2,8 @@ package com.wowsanta;
 
 import java.util.Map.Entry;
 import java.io.File;
+import java.lang.reflect.Type;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,26 +11,31 @@ import java.util.Properties;
 import java.util.Set;
 
 import com.google.gson.annotations.SerializedName;
+import com.google.gson.reflect.TypeToken;
 import com.wowsanta.repository.RepositoryConfig;
 import com.wowsanta.repository.RepositoryManager;
 import com.wowsanta.repository.SessionFactory;
 import com.wowsanta.scim.ScimException;
 import com.wowsanta.scim.annotation.AnnotationHandler;
-import com.wowsanta.scim.annotation.ENTITY;
+import com.wowsanta.scim.annotation.SCIM_ENTITY;
 import com.wowsanta.scim.config.Configuration;
 import com.wowsanta.scim.config.ConfigurationBuilder;
 import com.wowsanta.scim.config.Domain;
 import com.wowsanta.scim.config.DomainKey;
-import com.wowsanta.scim.type.SCIM_ENTITY;
+import com.wowsanta.scim.json.DomainKeyTypeAdapter;
+import com.wowsanta.scim.json.RestfulServiceAdapter;
+import com.wowsanta.scim.service.RestfulService;
 import com.wowsanta.server.ServiceStructure;
-import com.wowsanta.server.ServiceStructure.ServiceStructureBuilder;
-import com.wowsanta.server.handler.impl.EntityHandler;
+import com.wowsanta.server.ServiceStructureBuilder;
+import com.wowsanta.server.handler.impl.DomainEntityHandler;
+import com.wowsanta.server.handler.impl.ScimEntityHandler;
 import com.wowsanta.server.handler.impl.ServiceHandler;
 import com.wowsanta.server.spark.SparkServer;
 import com.wowsanta.server.spark.SparkServiceConfig;
 import com.wowsanta.util.log.LOGGER;
 
 import lombok.Data;
+import spark.Spark;
 
 @Data
 public class ProviderAgent {
@@ -55,6 +62,20 @@ public class ProviderAgent {
 	public static void main(String[] args) {
 		try {
 			String config_file 	= System.getProperty("server.config");
+			
+			config_file = "../config/dev.provider.json";
+			Type type = new TypeToken<Map<DomainKey, Configuration>>(){}.getType();
+			ConfigurationBuilder.builder.registerTypeAdapter(type, new DomainKeyTypeAdapter());
+			
+			Type type2 = new TypeToken<RestfulService>(){}.getType();
+			ConfigurationBuilder.builder.registerTypeAdapter(type2, new RestfulServiceAdapter());
+			
+			ProviderAgent provider = ConfigurationBuilder.load(ProviderAgent.class, config_file);
+			
+			provider.build();
+			provider.initialize();
+			provider.start();
+			
 		} catch (Exception e) {
 			LOGGER.error("{} : ",e.getMessage(),e);
 		}
@@ -65,31 +86,37 @@ public class ProviderAgent {
 	}
 	
 	
-	public void build() throws ScimException {
-		ServiceStructureBuilder builder = ServiceStructure.builder()
+	public ProviderAgent build() throws ScimException {
+		ServiceStructureBuilder builder = ServiceStructureBuilder.builder()
 				.setProperty(settings)
-				.addAnnotationHandler(new EntityHandler())
-				.addAnnotationHandler(new ServiceHandler());
-		
+				.setRepository(repositoris.entrySet())
+				.addAnnotationHandler(new ScimEntityHandler(ServiceStructure.getInstance()))
+				.addAnnotationHandler(new DomainEntityHandler(ServiceStructure.getInstance()))
+				.addAnnotationHandler(new ServiceHandler(ServiceStructure.getInstance()));
 		builder.build();
 		
-		RepositoryManager repositoryManager = RepositoryManager.getInstance();
-		Set<Entry<DomainKey, Configuration>> repository_set = repositoris.entrySet();
-		for (Entry<DomainKey, Configuration> entry : repository_set) {
-			RepositoryConfig configuration = (RepositoryConfig) ConfigurationBuilder.load(entry.getValue());
-			
-			SessionFactory session_factory = configuration.build(ServiceStructure.getInstance().getEntitySet());
-			repositoryManager.addRepository(entry.getKey(),session_factory);
-			
-			ServiceStructure.getInstance().addRepository(entry.getKey(), entry.getValue());
-		}
 
+		StringBuffer buffer = new StringBuffer();
+		buffer.append(settings.getProperty("HOME"));
+		buffer.append(File.separator);
+		buffer.append("structer");
+		buffer.append(new Date().getTime());
+		buffer.append(".json");
+		
+		String structer_file_name = buffer.toString();
+		ConfigurationBuilder.save(ServiceStructure.getInstance(),structer_file_name);
+		
 		server = (SparkServer) ConfigurationBuilder.load(serverConfig);
-		LOGGER.system.info("==SYSTEM STRUCTURE == \n{}",ConfigurationBuilder.toJson(ServiceStructure.getInstance()));
+		return this;
 	}
 
-	public void initialize() throws ScimException {
+	public ProviderAgent initialize() throws ScimException {
 		server.initialize();
+		return this;
+	}
+
+	public void start() {
+		server.start();
 	}
 //	
 //	public void addService(ServiceBuilder builder) {

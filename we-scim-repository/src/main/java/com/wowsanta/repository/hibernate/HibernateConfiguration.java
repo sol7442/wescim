@@ -51,16 +51,16 @@ public class HibernateConfiguration extends RepositoryConfig {
 				LOGGER.system.debug("regist entity class : {}",entity_set.size());
 				for (Entry<String, EntityInfo> entry : entity_set) {
 					EntityInfo entity = entry.getValue();
-					String name= entry.getKey();
 					config.addAnnotatedClass(entity.getImplClss());
 					
-					LOGGER.system.debug("{} : {}",name,entity);
+					LOGGER.system.debug("{} : {}",entry.getKey(),entity.getClassName());
 				}	
 			}
 			
 			org.hibernate.SessionFactory sessionFactory = config.buildSessionFactory();
 			session_factory.setHibernateSessionFactory(sessionFactory);
 		}catch (Exception e) {
+			e.printStackTrace();
 			throw new ScimException(e);
 		}
 		

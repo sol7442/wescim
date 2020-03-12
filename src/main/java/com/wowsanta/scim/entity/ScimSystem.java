@@ -16,14 +16,14 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.wowsanta.scim.annotation.ENTITY;
+import com.wowsanta.scim.annotation.SCIM_ENTITY;
 
 import lombok.Data;
 
 @Data
 @Entity
 @Table(name = "WS_SCIM_SYSTEM")
-@ENTITY(name="Scim_System")
+@SCIM_ENTITY(name="Scim_System")
 public class ScimSystem implements Resource {
 	
 	public enum Type{

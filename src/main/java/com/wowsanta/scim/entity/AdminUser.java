@@ -6,14 +6,14 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.wowsanta.scim.annotation.ENTITY;
+import com.wowsanta.scim.annotation.SCIM_ENTITY;
 import com.wowsanta.scim.entity.Resource;
 
 import lombok.Data;
 
 @Entity
 @Table(name = "WS_ADMIN_USER")
-@ENTITY(name="Admin_User")
+@SCIM_ENTITY(name="Admin_User")
 @Data
 public class AdminUser implements Resource{
 	@Id

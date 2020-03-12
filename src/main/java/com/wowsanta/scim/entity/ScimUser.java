@@ -12,8 +12,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import com.wowsanta.scim.annotation.ENTITY;
-import com.wowsanta.scim.type.SCIM_ENTITY;
+import com.wowsanta.scim.annotation.SCIM_ENTITY;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -21,7 +20,7 @@ import lombok.ToString;
 
 @Entity
 @Table(name = "WS_SCIM_USER")
-@ENTITY(name="Scim_User")
+@SCIM_ENTITY(name="Scim_User", repository="com.wowsanta.scim.repository.UserRepository")
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true, exclude = {"meta", "groups"} )

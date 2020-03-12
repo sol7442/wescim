@@ -3,7 +3,7 @@ package com.wowsanta.server.handler.impl;
 import java.io.File;
 
 import com.wowsanta.scim.annotation.AnnotationHandler;
-import com.wowsanta.scim.annotation.ENTITY;
+import com.wowsanta.scim.annotation.SCIM_ENTITY;
 import com.wowsanta.scim.annotation.SERVICE;
 import com.wowsanta.scim.config.Domain;
 import com.wowsanta.scim.entity.EntityInfo;
@@ -16,28 +16,28 @@ import com.wowsanta.util.log.LOGGER;
 import spark.route.HttpMethod;
 
 public class ServiceHandler extends AnnotationHandler{
-
+	ServiceStructure structure;
+	public ServiceHandler(ServiceStructure structure) {
+		this.structure = structure;
+	}
 	@Override
 	public boolean visit(File root, File file) {
 		String class_name = createClassName(root,file);
 		try {
 			Class<?> clazz = Class.forName(class_name);
-			SERVICE service_annotation = (SERVICE) clazz.getAnnotation(SERVICE.class);
-			if(service_annotation != null) {
-				ServiceStructure structure = ServiceStructure.getInstance();
-				EntityInfo entity = structure.getEntity(service_annotation.entity());
-				if(entity == null) {
-					entity = new EntityInfo();
-					entity.setName(service_annotation.entity());
-				}
+			SERVICE annotation = (SERVICE) clazz.getAnnotation(SERVICE.class);
+			if(annotation != null) {
+				
+				EntityInfo entity = structure.getEntity(annotation.entity());
+				
 				
 				AbstractEntityRestfulService service = (AbstractEntityRestfulService) clazz.newInstance();
-				service.setName(service_annotation.name());
-				service.setMethod(service_annotation.method());
-				service.setUrl(service_annotation.url());
+				service.setName(annotation.name());
+				service.setMethod(annotation.method());
+				service.setUrl(annotation.url());
 				entity.addRestfulService(service);
 				
-				structure.addEntity(entity);
+				//structure.addEntity(entity);
 				
 				LOGGER.system.debug("regist service : {} ", service);
 			}

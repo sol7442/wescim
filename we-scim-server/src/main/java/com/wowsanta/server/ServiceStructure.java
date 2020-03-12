@@ -5,25 +5,32 @@ import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
 
+import com.wowsanta.repository.RepositoryConfig;
+import com.wowsanta.repository.RepositoryManager;
+import com.wowsanta.repository.SessionFactory;
+import com.wowsanta.scim.ScimException;
 import com.wowsanta.scim.annotation.AnnotationHandler;
 import com.wowsanta.scim.config.Configuration;
+import com.wowsanta.scim.config.ConfigurationBuilder;
 import com.wowsanta.scim.config.DomainKey;
 import com.wowsanta.scim.entity.EntityInfo;
 import com.wowsanta.util.file.FileFinder;
 
+import lombok.Data;
+import oracle.net.aso.d;
 
+
+@Data
 public class ServiceStructure {
 	
 	public transient static final String CLASSES 	= "CLASSES";
 	public transient static final String DOMAIN  	= "DOMAIN";
 	public transient static final String REPOSITORY = "REPOSITORY";
 	
+	private Properties property;
 	private HashMap<String, EntityInfo> entitis = new HashMap<>();;
 	private HashMap<DomainKey,Configuration> repsitories = new HashMap<>();;
 	
-	private Properties property;
-	
-	//private transient List<AnnotationHandler> annotationHandlers = new ArrayList<AnnotationHandler>();
 	
 	private transient static ServiceStructure instance = null;
 	
@@ -33,44 +40,25 @@ public class ServiceStructure {
 		}
 		return instance;
 	}
-	public static class ServiceStructureBuilder{
-		private FileFinder classFileFinder = new FileFinder();
-		
-		public void build() {
-			classFileFinder.run();
-			
-		}
-		public ServiceStructureBuilder setProperty(Properties settings) {
-			String[] class_path_array = settings.getProperty(CLASSES).split(";");
-			for (String class_path : class_path_array) {
-				classFileFinder.addDirectory(class_path);	
-			}
-			
-			ServiceStructure.getInstance().property = settings;
-			return this;
-		}
-		public ServiceStructureBuilder addAnnotationHandler(AnnotationHandler annotationHandler) {
-			classFileFinder.addHandler(annotationHandler);
-			return this;
-		}
-
-		
-	}
-	public static ServiceStructureBuilder builder() {
-		return new ServiceStructureBuilder();
-	}
 	
 	public Object getProperty(String key, String defulat) {
 		if(this.property != null) {
-			return this.property.get(key);
+			if(this.property.get(key) != null) {
+				return this.property.get(key);
+			}
+			return defulat;
 		}
 		return defulat;
 	}
-	public EntityInfo getEntity(String key) {
-		return entitis.get(key);
-	}
-	public void addEntity(EntityInfo entity) {
-		entitis.put(entity.getName(), entity);
+	public synchronized EntityInfo getEntity(String key) {
+		EntityInfo entity_info = entitis.get(key);
+		if(entity_info == null) {
+			entity_info = new EntityInfo();
+			entity_info.setName(key);
+			entitis.put(key, entity_info);
+		}
+		
+		return entity_info;
 	}
 	public Set<Entry<String, EntityInfo>> getEntitySet(){
 		return this.entitis.entrySet();

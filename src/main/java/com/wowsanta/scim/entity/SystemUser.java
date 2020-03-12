@@ -10,14 +10,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.wowsanta.scim.annotation.ENTITY;
+import com.wowsanta.scim.annotation.SCIM_ENTITY;
 
 import lombok.Data;
 
 @Data
 @Entity
 @Table(name = "WS_SYSTEM_USER")
-@ENTITY(name="System_User")
+@SCIM_ENTITY(name="System_User")
 public class SystemUser implements Resource {
 	
 	@Id

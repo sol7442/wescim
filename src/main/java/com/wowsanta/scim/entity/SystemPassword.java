@@ -12,14 +12,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
 
-import com.wowsanta.scim.annotation.ENTITY;
+import com.wowsanta.scim.annotation.SCIM_ENTITY;
 
 import lombok.Data;
 
 @Data
 @Entity
 @Table(name = "WS_SYSTEM_PASSWORD")
-@ENTITY(name="System_Password")
+@SCIM_ENTITY(name="System_Password")
 public class SystemPassword implements Resource {
 	
 	@Embeddable

@@ -1,4 +1,4 @@
-package com.wowsanta.scim.config;
+package com.wowsanta.scim.json;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -12,6 +12,9 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
+import com.wowsanta.scim.config.Configuration;
+import com.wowsanta.scim.config.ConfigurationBuilder;
+import com.wowsanta.scim.config.DomainKey;
 
 public class DomainKeyTypeAdapter extends TypeAdapter<Map<DomainKey,Configuration>> {
 

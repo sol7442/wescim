@@ -7,14 +7,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ForeignKey;
 import javax.persistence.ManyToOne;
 
-import com.wowsanta.scim.annotation.ENTITY;
-import com.wowsanta.scim.type.SCIM_ENTITY;
+import com.wowsanta.scim.annotation.DOMAIN_ENTITY;
 
 import lombok.Data;
 
 
-@ENTITY(name=SCIM_ENTITY.ORG,domain="dapa.oldhr.dev")
 @Data
+@DOMAIN_ENTITY(name="Scim_Org",domain="dapa.oldhr.dev")
 public class OldHrOrg extends OldHrResource{
 	
 	@ManyToOne(fetch = FetchType.LAZY)

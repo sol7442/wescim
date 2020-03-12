@@ -4,7 +4,8 @@ import java.io.File;
 
 import com.wowsanta.scim.annotation.AnnotationHandler;
 import com.wowsanta.scim.annotation.Constants;
-import com.wowsanta.scim.annotation.ENTITY;
+import com.wowsanta.scim.annotation.DOMAIN_ENTITY;
+import com.wowsanta.scim.annotation.SCIM_ENTITY;
 import com.wowsanta.scim.config.DomainKey;
 import com.wowsanta.scim.entity.EntityInfo;
 import com.wowsanta.scim.type.RestfulServiceType;
@@ -18,60 +19,28 @@ import com.wowsanta.util.log.LOGGER;
 import oracle.net.aso.c;
 import spark.route.HttpMethod;
 
-public class EntityHandler extends AnnotationHandler {
-
+public class DomainEntityHandler extends AnnotationHandler {
+	
+	ServiceStructure structure = null;
+	public DomainEntityHandler(ServiceStructure structure) {
+		this.structure = structure;
+	}
 	@Override
 	public boolean visit(File root, File file) {
 		String class_name = createClassName(root,file);
 		try {
 			Class<?> clazz = Class.forName(class_name);
-			ENTITY entity_annotation = (ENTITY) clazz.getAnnotation(ENTITY.class);
-			if(entity_annotation != null) {
-				ServiceStructure structure = ServiceStructure.getInstance();
+			DOMAIN_ENTITY annotation = (DOMAIN_ENTITY) clazz.getAnnotation(DOMAIN_ENTITY.class);
+			
+			if(annotation != null) {
+				EntityInfo entity = structure.getEntity(annotation.name());
+				System.out.println(entity.getName()  + "<<<<<<<<<");
+				EntityInfo domain_entity = new EntityInfo();
+				domain_entity.setName(annotation.name());
+				domain_entity.setClassName(class_name);
+				domain_entity.setImplClss(clazz);
+				entity.addDomainEntity(annotation.domain(),domain_entity);
 				
-				String repository 	= getRealRepository(entity_annotation.repository());
-				String domain 		= getRealDomain(entity_annotation.domain());
-				String name   		= entity_annotation.name();
-				
-				EntityInfo entity = structure.getEntity(name);
-				if(entity == null) {
-					entity = new EntityInfo();
-					entity.setName(name);
-				}
-				entity.setDomain(domain);
-				entity.setKey(new DomainKey(domain,name));
-				entity.setClassName(class_name);
-				entity.setImplClss(clazz);
-				entity.setRepository(repository);
-				for (RestfulServiceType restful_type : entity_annotation.restful()) {
-					switch (restful_type) {
-					case ALL:
-						make_createService(entity);
-						make_readService(entity);
-						make_updateService(entity);
-						make_deleteService(entity);
-						make_searchService(entity);
-						break;
-					case CREATE:
-						make_createService(entity);
-						break;
-					case READ:
-						make_readService(entity);
-						break;
-					case UPDATE:
-						make_updateService(entity);
-						break;
-					case DELETE:
-						make_deleteService(entity);
-						break;
-					case SEARCH:
-						make_searchService(entity);
-						break;
-					default:
-						break;
-					}
-				}
-				structure.addEntity(entity);
 			}
 			
 		} catch (ClassNotFoundException e) {

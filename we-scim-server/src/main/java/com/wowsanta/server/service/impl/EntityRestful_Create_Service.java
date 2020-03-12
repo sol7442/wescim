@@ -18,6 +18,6 @@ public class EntityRestful_Create_Service extends AbstractEntityRestfulService{
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		return EntityRestful_Create_Service.class.getName();
 	}
 }

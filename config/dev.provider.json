@@ -15,8 +15,9 @@
     }
   },
   "settings": {
+  	"HOME": "./",
     "DOMAIN": "local.dev.scim",
     "CLASSES": "./we-scim-service/bin;./bin;./bin/main",
-    "REPOSITORY": "hibernate"
+    "REPOSITORY": "mybatis"
   }
 }

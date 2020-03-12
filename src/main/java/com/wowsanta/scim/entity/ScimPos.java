@@ -6,8 +6,7 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import com.wowsanta.scim.annotation.ENTITY;
-import com.wowsanta.scim.type.SCIM_ENTITY;
+import com.wowsanta.scim.annotation.SCIM_ENTITY;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -15,7 +14,7 @@ import lombok.EqualsAndHashCode;
 
 @Entity
 @Table(name = "WS_SCIM_POS")
-@ENTITY(name="Scim_Pos")
+@SCIM_ENTITY(name="Scim_Pos")
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class ScimPos extends ScimResource{

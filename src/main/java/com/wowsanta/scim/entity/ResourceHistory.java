@@ -9,13 +9,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.wowsanta.scim.annotation.ENTITY;
+import com.wowsanta.scim.annotation.SCIM_ENTITY;
 
 import lombok.Data;
 
 @Entity
 @Table(name = "WS_RESOURCE_HISTORY")
-@ENTITY(name="Resource_History")
+@SCIM_ENTITY(name="Resource_History")
 @Data
 public class ResourceHistory implements Resource {
 	

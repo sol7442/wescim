@@ -62,6 +62,7 @@ public class MyBatisConfiguration extends RepositoryConfig  {
 			
 			Configuration config = new Configuration();
 			config.setEnvironment(environment);
+			config.setCallSettersOnNulls(true);
 			
 			File map_path = new File(mapperPath); 
 			if(map_path.isDirectory()) {

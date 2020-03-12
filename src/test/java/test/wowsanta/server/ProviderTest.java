@@ -14,7 +14,9 @@ import com.wowsanta.scim.ScimException;
 import com.wowsanta.scim.config.Configuration;
 import com.wowsanta.scim.config.ConfigurationBuilder;
 import com.wowsanta.scim.config.DomainKey;
-import com.wowsanta.scim.config.DomainKeyTypeAdapter;
+import com.wowsanta.scim.json.DomainKeyTypeAdapter;
+import com.wowsanta.scim.json.RestfulServiceAdapter;
+import com.wowsanta.scim.service.RestfulService;
 import com.wowsanta.server.ServiceStructure;
 import com.wowsanta.server.spark.SparkServer;
 
@@ -36,12 +38,14 @@ public class ProviderTest {
 			Type type = new TypeToken<Map<DomainKey, Configuration>>(){}.getType();
 			ConfigurationBuilder.builder.registerTypeAdapter(type, new DomainKeyTypeAdapter());
 			
+			Type type2 = new TypeToken<RestfulService>(){}.getType();
+			ConfigurationBuilder.builder.registerTypeAdapter(type2, new RestfulServiceAdapter());
+			
 			ProviderAgent provider = ConfigurationBuilder.load(ProviderAgent.class, provider_config_file);
-			//System.out.println(ConfigurationBuilder.toJson(provider));
 			
 			provider.build();
-			
 			provider.initialize();
+			provider.start();
 			
 		} catch (ScimException e) {
 			e.printStackTrace();
