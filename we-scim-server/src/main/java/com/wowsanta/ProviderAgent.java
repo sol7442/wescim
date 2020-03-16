@@ -12,6 +12,8 @@ import java.util.Set;
 
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
+import com.wowsanta.handler.ScimEntityHandler;
+import com.wowsanta.handler.ServiceHandler;
 import com.wowsanta.repository.RepositoryConfig;
 import com.wowsanta.repository.RepositoryManager;
 import com.wowsanta.repository.SessionFactory;
@@ -25,13 +27,11 @@ import com.wowsanta.scim.config.DomainKey;
 import com.wowsanta.scim.json.DomainKeyTypeAdapter;
 import com.wowsanta.scim.json.RestfulServiceAdapter;
 import com.wowsanta.scim.service.RestfulService;
-import com.wowsanta.server.ServiceStructure;
-import com.wowsanta.server.ServiceStructureBuilder;
 import com.wowsanta.server.handler.impl.DomainEntityHandler;
-import com.wowsanta.server.handler.impl.ScimEntityHandler;
-import com.wowsanta.server.handler.impl.ServiceHandler;
 import com.wowsanta.server.spark.SparkServer;
 import com.wowsanta.server.spark.SparkServiceConfig;
+import com.wowsanta.service.ServiceStructure;
+import com.wowsanta.service.ServiceStructureBuilder;
 import com.wowsanta.util.log.LOGGER;
 
 import lombok.Data;

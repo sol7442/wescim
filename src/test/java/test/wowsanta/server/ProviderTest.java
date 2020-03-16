@@ -17,8 +17,8 @@ import com.wowsanta.scim.config.DomainKey;
 import com.wowsanta.scim.json.DomainKeyTypeAdapter;
 import com.wowsanta.scim.json.RestfulServiceAdapter;
 import com.wowsanta.scim.service.RestfulService;
-import com.wowsanta.server.ServiceStructure;
 import com.wowsanta.server.spark.SparkServer;
+import com.wowsanta.service.ServiceStructure;
 
 
 public class ProviderTest {

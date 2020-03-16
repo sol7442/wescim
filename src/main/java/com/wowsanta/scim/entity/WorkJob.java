@@ -11,16 +11,21 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.wowsanta.scim.SCIM_EXT_SCHEMA_TYPES;
+import com.wowsanta.scim.SCIM_REPOSITORY_TYPES;
 import com.wowsanta.scim.annotation.SCIM_ENTITY;
-import com.wowsanta.scim.entity.Resource;
+import com.wowsanta.scim.entity.SCIM_Resource;
 
 import lombok.Data;
 
 @Entity
 @Table(name = "WS_WORK_JOB")
-@SCIM_ENTITY(name="Work_Job")
+@SCIM_ENTITY(
+		name		= SCIM_EXT_SCHEMA_TYPES.WORK_JOB_SCHEMA,
+		schema 		= SCIM_EXT_SCHEMA_TYPES.WORK_JOB_SCHEMA_URI,
+		repository	= SCIM_REPOSITORY_TYPES.WORK_JOB_REPOSITORY)
 @Data
-public class WorkJob implements Resource{
+public class WorkJob implements SCIM_Resource{
 	@Id
 	@Column(name = "id", columnDefinition = "VARCHAR(64)")
 	private String id;

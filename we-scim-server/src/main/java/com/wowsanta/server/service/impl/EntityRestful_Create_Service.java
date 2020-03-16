@@ -1,23 +1,46 @@
 package com.wowsanta.server.service.impl;
 
-import com.wowsanta.server.service.AbstractEntityRestfulService;
+import java.lang.reflect.Type;
+
+import com.wowsanta.entity.ScimResource;
+import com.wowsanta.repository.Repository;
+import com.wowsanta.repository.RepositoryManager;
+import com.wowsanta.repository.Session;
+import com.wowsanta.scim.json.JsonUtil;
+import com.wowsanta.service.EntityRestful_Service;
 
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import spark.Request;
 import spark.Response;
+import spark.Route;
 
 @Data
 @EqualsAndHashCode(callSuper=false)
-@Builder
-public class EntityRestful_Create_Service extends AbstractEntityRestfulService{
-	String name;
-	String method;
-	String url;
+public class EntityRestful_Create_Service implements Route{
+	private final EntityRestful_Service service;
+	public EntityRestful_Create_Service(EntityRestful_Service service) {
+		this.service = service ;
+	}
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
-		// TODO Auto-generated method stub
+		try (Session session = RepositoryManager.getInstance().openSession()) {
+			String json = request.body();
+			ScimResource res = (ScimResource) JsonUtil.parse(service.getEntity().getImplClss(), json);
+
+			
+			Repository<ScimResource> repository = service.getRepoisitory(session);
+			repository.create(res);
+
+			
+			session.commit();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			
+		}
+		
 		return EntityRestful_Create_Service.class.getName();
 	}
 }

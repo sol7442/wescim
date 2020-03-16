@@ -6,11 +6,11 @@
   "services": {},
   "repositoris": {
     "local.dev.scim:mybatis": {
-      "fileName": "./config/default.repository.wowsanta.mybatis.json",
+      "fileName": "./config/default.repository.local_tibero.mybatis.json",
       "implClss": "com.wowsanta.repository.mybatis.MyBatisConfiguration"
     },
     "local.dev.scim:hibernate": {
-      "fileName": "./config/default.repository.wowsanta.hibernate.json",
+      "fileName": "./config/default.repository.local_tibero.hibernate.json",
       "implClss": "com.wowsanta.repository.hibernate.HibernateConfiguration"
     }
   },

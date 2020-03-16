@@ -1,0 +1,16 @@
+{
+  "dataInfo": {
+    "driver": "com.tmax.tibero.jdbc.TbDriver",
+    "url": "jdbc:tibero:thin:@127.0.0.1:8629:tibero",
+    "user": "tibero",
+    "password":"tmax"
+  },
+  "mapperPath": "./mapper/wowsanta",
+  "name": "mybatis",
+  "autoCommit": false,
+  "loginTimeout": 1000,
+  "networkTimeout": 2000,
+  "maxActivePool": 10,
+  "maxIdelPool": 2,
+  "pingConnectionNotUse": 60000
+}

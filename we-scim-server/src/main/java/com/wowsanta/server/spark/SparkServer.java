@@ -13,7 +13,7 @@ import com.wowsanta.scim.config.ConfigurationBuilder;
 import com.wowsanta.scim.entity.EntityInfo;
 import com.wowsanta.scim.service.RestfulService;
 import com.wowsanta.server.Server;
-import com.wowsanta.server.ServiceStructure;
+import com.wowsanta.service.ServiceStructure;
 import com.wowsanta.util.log.LOGGER;
 
 import lombok.Data;
@@ -81,6 +81,8 @@ public class SparkServer implements Server {
 	
 
 	private void registryRestFul() {
+		SparkServiceBuilder bulder = new SparkServiceBuilder();
+		
 		Set<Entry<String, EntityInfo>> entity_entry_set = ServiceStructure.getInstance().getEntitySet();
 		for (Entry<String, EntityInfo> entity_entry : entity_entry_set) {
 			Set<Entry<String, RestfulService>> service_entry_set = entity_entry.getValue().getRestfulServiceSet();
@@ -89,7 +91,6 @@ public class SparkServer implements Server {
 					HttpMethod method = HttpMethod.valueOf(service_entry.getValue().getMethod());
 					
 					RestfulService service = service_entry.getValue();
-					service.setEntity(entity_entry.getValue());
 					
 					switch (method) {
 					case before:
@@ -99,19 +100,19 @@ public class SparkServer implements Server {
 						//after(control_info.getPath(),newFilter(control_info.getControlClass()));
 						break;
 					case post:
-						post(service_entry.getValue().getUrl(),(Route)service);
+						post(service.getUrl(),bulder.build_route(service));
 						break;
 					case get:
-						get(service_entry.getValue().getUrl(),(Route)service);
+						get(service.getUrl(),bulder.build_route(service));
 						break;
 					case patch:
-						patch(service_entry.getValue().getUrl(),(Route)service);
+						patch(service.getUrl(),bulder.build_route(service));
 						break;
 					case put:
-						put(service_entry.getValue().getUrl(),(Route)service);
+						put(service.getUrl(),bulder.build_route(service));
 						break;
 					case delete:
-						delete(service_entry.getValue().getUrl(),(Route)service);
+						delete(service.getUrl(),bulder.build_route(service));
 						break;
 					default:
 						break;

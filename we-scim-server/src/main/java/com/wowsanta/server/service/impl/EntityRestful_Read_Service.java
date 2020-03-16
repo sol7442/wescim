@@ -1,27 +1,28 @@
 package com.wowsanta.server.service.impl;
 
+import com.wowsanta.entity.ScimResource;
 import com.wowsanta.repository.Repository;
 import com.wowsanta.repository.RepositoryManager;
 import com.wowsanta.repository.Session;
 import com.wowsanta.scim.ScimException;
-import com.wowsanta.scim.entity.Resource;
+import com.wowsanta.scim.entity.SCIM_Resource;
 import com.wowsanta.scim.json.JsonUtil;
-import com.wowsanta.server.service.AbstractEntityRestfulService;
+import com.wowsanta.service.EntityRestful_Service;
 
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import spark.Request;
 import spark.Response;
+import spark.Route;
 
 @Data
 @EqualsAndHashCode(callSuper=false)
-@Builder
-public class EntityRestful_Read_Service extends AbstractEntityRestfulService {
-	String name;
-	String method;
-	String url;
-
+public class EntityRestful_Read_Service  implements Route {
+	private final EntityRestful_Service service;
+	public EntityRestful_Read_Service(EntityRestful_Service service) {
+		this.service = service ;
+	}
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
 		String result = "";
@@ -31,10 +32,8 @@ public class EntityRestful_Read_Service extends AbstractEntityRestfulService {
 				throw new ScimException("parameter is null");
 			}
 			
-			Class<?> repository_class = getRepositoryClass();
-			Repository<?> repository =  (Repository<?>) session.getRepository(repository_class);
-			
-			Resource res = repository.read(read_id);
+			Repository<ScimResource> repository = service.getRepoisitory(session);
+			SCIM_Resource res = repository.read(read_id);
 			
 			result = JsonUtil.toJson(res);
 		}catch (Exception e) {
@@ -45,15 +44,4 @@ public class EntityRestful_Read_Service extends AbstractEntityRestfulService {
 		}
 		return result;
 	}
-
-	private Class<?> getRepositoryClass() {
-		Class<?> repository_class = null;
-		try {
-			repository_class = Class.forName(entity.getRepository());
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		return repository_class;
-	}
-
 }

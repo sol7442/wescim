@@ -9,9 +9,7 @@ import com.wowsanta.scim.config.ConfigurationBuilder;
 import com.wowsanta.scim.obj.ScimObject;
 import com.wowsanta.server.Server;
 import com.wowsanta.server.ServerConfig;
-import com.wowsanta.server.spark.ServiceBuilder;
 import com.wowsanta.server.spark.SparkServer;
-import com.wowsanta.server.spark.SparkService;
 
 import lombok.Builder;
 

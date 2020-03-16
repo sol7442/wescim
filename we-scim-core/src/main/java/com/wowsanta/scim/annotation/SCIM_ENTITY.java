@@ -10,7 +10,8 @@ import com.wowsanta.scim.type.RestfulServiceType;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface SCIM_ENTITY {
+	String schema() 	;
 	String name();
-	String repository() default Constants.DEFATUL_REPOSITORY;
+	String repository() default Constants.NULL_STRINNG;
 	RestfulServiceType[] restful() default RestfulServiceType.ALL;
 }

@@ -1,19 +1,14 @@
-package com.wowsanta.server.handler.impl;
+package com.wowsanta.handler;
 
 import java.io.File;
 
 import com.wowsanta.scim.annotation.AnnotationHandler;
-import com.wowsanta.scim.annotation.SCIM_ENTITY;
 import com.wowsanta.scim.annotation.SERVICE;
-import com.wowsanta.scim.config.Domain;
 import com.wowsanta.scim.entity.EntityInfo;
-import com.wowsanta.scim.type.RestfulServiceType;
-import com.wowsanta.server.ServiceStructure;
-import com.wowsanta.server.service.AbstractEntityRestfulService;
-import com.wowsanta.server.service.impl.EntityRestful_Create_Service;
+import com.wowsanta.service.EntityRestful_Service;
+import com.wowsanta.service.ServiceStructure;
 import com.wowsanta.util.log.LOGGER;
 
-import spark.route.HttpMethod;
 
 public class ServiceHandler extends AnnotationHandler{
 	ServiceStructure structure;
@@ -29,9 +24,13 @@ public class ServiceHandler extends AnnotationHandler{
 			if(annotation != null) {
 				
 				EntityInfo entity = structure.getEntity(annotation.entity());
+				if(entity == null) {
+					entity = new EntityInfo();
+					structure.addEntity(annotation.entity(), entity);
+				}
 				
 				
-				AbstractEntityRestfulService service = (AbstractEntityRestfulService) clazz.newInstance();
+				EntityRestful_Service service = (EntityRestful_Service) clazz.newInstance();
 				service.setName(annotation.name());
 				service.setMethod(annotation.method());
 				service.setUrl(annotation.url());

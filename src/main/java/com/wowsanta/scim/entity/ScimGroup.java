@@ -12,17 +12,23 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-
+import com.wowsanta.scim.SCIM_EXT_SCHEMA_TYPES;
+import com.wowsanta.scim.SCIM_REPOSITORY_TYPES;
 import com.wowsanta.scim.annotation.SCIM_ENTITY;
-
+import com.wowsanta.scim.type.RestfulServiceType;
+import com.wowsanta.entity.ScimResource;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Entity
 @Table(name = "WS_SCIM_GROUP")
-@SCIM_ENTITY(name="Scim_Group")
 @Data
 @EqualsAndHashCode(callSuper = true)
+
+@SCIM_ENTITY(
+		schema 		= SCIM_EXT_SCHEMA_TYPES.SCIM_GROUP_SCHEMA_URI,
+		name		= SCIM_EXT_SCHEMA_TYPES.SCIM_GROUP_SCHEMA,
+		repository  = SCIM_REPOSITORY_TYPES.SCIM_GROUP_REPOSITORY)
 public class ScimGroup extends ScimResource {
 	@Embedded
 	private ScimMeta meta;

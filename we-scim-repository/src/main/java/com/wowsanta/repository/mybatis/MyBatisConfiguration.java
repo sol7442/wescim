@@ -51,7 +51,7 @@ public class MyBatisConfiguration extends RepositoryConfig  {
 			
 			dataSource.setDefaultAutoCommit(autoCommit);
 			dataSource.setLoginTimeout(loginTimeout);
-			dataSource.setDefaultNetworkTimeout(networkTimeout);
+			//dataSource.setDefaultNetworkTimeout(networkTimeout);
 			dataSource.setPoolMaximumActiveConnections(maxActivePool);
 			dataSource.setPoolMaximumIdleConnections(maxIdelPool);
 			dataSource.setPoolPingConnectionsNotUsedFor(pingConnectionNotUse);

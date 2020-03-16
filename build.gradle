@@ -51,7 +51,7 @@ task copy_libs(type:Copy, group:"build setup"){
 	
 dependencies {
 	compile project(':we-scim-server')
-	compile project(':we-scim-service')
+	compile project(':we-scim-client')
 }
 
 subprojects {

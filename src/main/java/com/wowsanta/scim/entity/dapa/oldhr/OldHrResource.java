@@ -5,13 +5,13 @@ import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
-import com.wowsanta.scim.entity.Resource;
+import com.wowsanta.scim.entity.SCIM_Resource;
 
 import lombok.Data;
 
 @Data
 @MappedSuperclass
-public abstract class OldHrResource implements Resource {
+public abstract class OldHrResource implements SCIM_Resource {
 	@Id
 	@Column(name = "id", columnDefinition = "VARCHAR(64)")
 	protected String id;

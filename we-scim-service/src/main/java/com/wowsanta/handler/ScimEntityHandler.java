@@ -1,20 +1,16 @@
-package com.wowsanta.server.handler.impl;
+package com.wowsanta.handler;
 
 import java.io.File;
 
 import com.wowsanta.scim.annotation.AnnotationHandler;
-import com.wowsanta.scim.annotation.Constants;
 import com.wowsanta.scim.annotation.SCIM_ENTITY;
 import com.wowsanta.scim.entity.EntityInfo;
+import com.wowsanta.scim.service.RestfulService;
 import com.wowsanta.scim.type.RestfulServiceType;
-import com.wowsanta.server.ServiceStructure;
-import com.wowsanta.server.service.impl.EntityRestful_Create_Service;
-import com.wowsanta.server.service.impl.EntityRestful_Delete_Service;
-import com.wowsanta.server.service.impl.EntityRestful_Read_Service;
-import com.wowsanta.server.service.impl.EntityRestful_Update_Service;
+import com.wowsanta.service.EntityRestful_Service;
+import com.wowsanta.service.ServiceStructure;
 import com.wowsanta.util.log.LOGGER;
 
-import spark.route.HttpMethod;
 
 public class ScimEntityHandler extends AnnotationHandler {
 	
@@ -30,7 +26,12 @@ public class ScimEntityHandler extends AnnotationHandler {
 			SCIM_ENTITY annotation = (SCIM_ENTITY) clazz.getAnnotation(SCIM_ENTITY.class);
 			if(annotation != null) {
 				EntityInfo entity = structure.getEntity(annotation.name());
-				System.out.println(entity.getName()  + "<<<<<<<<<");
+				if(entity == null) {
+					entity = new EntityInfo();
+					structure.addEntity(annotation.name(), entity);
+				}
+				entity.setName(annotation.name());
+				entity.setSchema(annotation.schema());
 				entity.setClassName(class_name);
 				entity.setImplClss(clazz);
 				entity.setRepository(annotation.repository());
@@ -72,52 +73,50 @@ public class ScimEntityHandler extends AnnotationHandler {
 	}
 
 	private void make_searchService(EntityInfo entity) {
-		entity.addRestfulService(EntityRestful_Delete_Service.builder()
-				.name("search")
-				.method(HttpMethod.post.toString())
-				.url(getServiceUrl(entity.getName(), ""))
-				.build());
+		RestfulService service = new EntityRestful_Service();
+		service.setName("search");
+		service.setMethod("post");
+		service.setUrl(getServiceUrl(entity.getName(), ""));
+		
+		entity.addRestfulService(service);
+		
 	}
 
 	private void make_deleteService(EntityInfo entity) {
-		entity.addRestfulService(EntityRestful_Delete_Service.builder()
-				.name("delete")
-				.method(HttpMethod.delete.toString())
-				.url(getServiceUrl(entity.getName(), ":id"))
-				.build());
+		RestfulService service = new EntityRestful_Service();
+		service.setName("delete");
+		service.setMethod("delete");
+		service.setUrl(getServiceUrl(entity.getName(), ":id"));
+		
+		entity.addRestfulService(service);
 	}
 
 	private void make_updateService(EntityInfo entity) {
-		entity.addRestfulService(EntityRestful_Update_Service.builder()
-				.name("update")
-				.method(HttpMethod.patch.toString())
-				.url(getServiceUrl(entity.getName(), ":id"))
-				.build());
+		RestfulService service = new EntityRestful_Service();
+		service.setName("update");
+		service.setMethod("patch");
+		service.setUrl(getServiceUrl(entity.getName(), ":id"));
+		
+		entity.addRestfulService(service);
 	}
 
 	private void make_readService(EntityInfo entity) {
-		entity.addRestfulService(EntityRestful_Read_Service.builder()
-				.name("read")
-				.method(HttpMethod.get.toString())
-				.url(getServiceUrl(entity.getName(), ":id"))
-				.build());
+		RestfulService service = new EntityRestful_Service();
+		service.setName("read");
+		service.setMethod("get");
+		service.setUrl(getServiceUrl(entity.getName(), ":id"));
+		
+		entity.addRestfulService(service);
 	}
 
 	private void make_createService(EntityInfo entity) {
-		entity.addRestfulService(EntityRestful_Create_Service.builder()
-				.name("create")
-				.method(HttpMethod.post.toString())
-				.url(getServiceUrl(entity.getName(), null))
-				.build());
+		RestfulService service = new EntityRestful_Service();
+		service.setName("create");
+		service.setMethod("post");
+		service.setUrl(getServiceUrl(entity.getName(),null));
+		
+		entity.addRestfulService(service);
 	}
-	
-//	private String getRealRepository(String repository) {
-//		String real_repository = (String)ServiceStructure.getInstance().getProperty(ServiceStructure.REPOSITORY,Constants.DEFATUL_REPOSITORY);
-//		if(repository.endsWith(Constants.DEFATUL_REPOSITORY)) {
-//			return real_repository;
-//		}
-//		return real_repository;
-//	}
 	
 	public String getServiceUrl(String entity_name, String params) {
 		StringBuffer buffer = new StringBuffer();
@@ -132,11 +131,4 @@ public class ScimEntityHandler extends AnnotationHandler {
 		return buffer.toString();
 	}
 
-	private String getRealDomain(String entity_domain) {
-		String real_dommain = (String)ServiceStructure.getInstance().getProperty(ServiceStructure.DOMAIN,Constants.DEFATUL_DOMAIN);
-		if(entity_domain.endsWith(Constants.DEFATUL_DOMAIN)) {
-			return real_dommain;
-		}
-		return entity_domain;
-	}
 }

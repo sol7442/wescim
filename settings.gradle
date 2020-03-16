@@ -4,5 +4,6 @@ include "we-scim-core","we-scim-repository"
 include "we-scim-server"
 include "we-scim-service"
 include "we-scim-admin"
+include "we-scim-client"
 
 //include "we-scim-provider","we-scim-consumer","we-scim-resource"

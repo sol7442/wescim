@@ -16,6 +16,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.wowsanta.scim.SCIM_EXT_SCHEMA_TYPES;
+import com.wowsanta.scim.SCIM_REPOSITORY_TYPES;
 import com.wowsanta.scim.annotation.SCIM_ENTITY;
 
 import lombok.Data;
@@ -23,8 +25,11 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "WS_SCIM_SYSTEM")
-@SCIM_ENTITY(name="Scim_System")
-public class ScimSystem implements Resource {
+@SCIM_ENTITY(
+		schema 		= SCIM_EXT_SCHEMA_TYPES.SCIM_SYSTEM_SCHEMA,
+		name		= SCIM_EXT_SCHEMA_TYPES.SCIM_SYSTEM_SCHEMA_URI,
+		repository  = SCIM_REPOSITORY_TYPES.SCIM_SYSTEM_REPOSITORY)
+public class ScimSystem implements SCIM_Resource {
 	
 	public enum Type{
 		PROVIDER,SOUREC,TARGET

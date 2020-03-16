@@ -12,6 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
 
+import com.wowsanta.scim.SCIM_EXT_SCHEMA_TYPES;
+import com.wowsanta.scim.SCIM_REPOSITORY_TYPES;
 import com.wowsanta.scim.annotation.SCIM_ENTITY;
 
 import lombok.Data;
@@ -19,8 +21,11 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "WS_SYSTEM_PASSWORD")
-@SCIM_ENTITY(name="System_Password")
-public class SystemPassword implements Resource {
+@SCIM_ENTITY(
+		name		= SCIM_EXT_SCHEMA_TYPES.SYSTEM_PASSWORD_SCHEMA,
+		schema 		= SCIM_EXT_SCHEMA_TYPES.SYSTEM_PASSWORD_SCHEMA_URI,
+		repository	= SCIM_REPOSITORY_TYPES.SYSTEM_PASSWORD_REPOSITORY)
+public class SystemPassword implements SCIM_Resource {
 	
 	@Embeddable
 	@Data
@@ -28,10 +33,13 @@ public class SystemPassword implements Resource {
 		private static final long serialVersionUID = 1L;
 		private String userId;
 		private String systemId;
+		public String toString() {
+			return userId + "@" +systemId; 
+		}
 	}
 	
 	@EmbeddedId
-	private PK id;
+	private PK pk;
 	
 	@MapsId("userId")
 	@ManyToOne
@@ -45,5 +53,10 @@ public class SystemPassword implements Resource {
 	
 	@Embedded
 	private PasswordMeta meta;
+
+	@Override
+	public String getId() {
+		return pk.toString();
+	}
 	
 }

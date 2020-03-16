@@ -13,7 +13,8 @@ import lombok.Data;
 @Data
 public class EntityInfo {
 	private transient Class<?> implClss;
-	private transient String name;
+	private String name;
+	private String schema;
 	private String className;
 	private String repository;
 	private Map<String,RestfulService> services ;

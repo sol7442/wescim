@@ -9,6 +9,8 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.wowsanta.entity.ScimResource;
+
 import lombok.Data;
 
 @Data

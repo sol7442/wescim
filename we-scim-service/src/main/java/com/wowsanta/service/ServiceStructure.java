@@ -1,4 +1,4 @@
-package com.wowsanta.server;
+package com.wowsanta.service;
 
 import java.util.HashMap;
 import java.util.Map.Entry;
@@ -50,15 +50,12 @@ public class ServiceStructure {
 		}
 		return defulat;
 	}
-	public synchronized EntityInfo getEntity(String key) {
-		EntityInfo entity_info = entitis.get(key);
-		if(entity_info == null) {
-			entity_info = new EntityInfo();
-			entity_info.setName(key);
-			entitis.put(key, entity_info);
-		}
-		
-		return entity_info;
+	
+	public void addEntity(String name, EntityInfo entity) {
+		this.entitis.put(name, entity);
+	}
+	public synchronized EntityInfo getEntity(String name) {
+		return entitis.get(name);
 	}
 	public Set<Entry<String, EntityInfo>> getEntitySet(){
 		return this.entitis.entrySet();
@@ -66,6 +63,8 @@ public class ServiceStructure {
 	public void addRepository(DomainKey key, Configuration config) {
 		this.repsitories.put(key, config);
 	}
+
+
 
 }
 

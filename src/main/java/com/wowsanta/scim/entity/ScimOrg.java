@@ -9,7 +9,10 @@ import javax.persistence.ForeignKey;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.wowsanta.scim.SCIM_EXT_SCHEMA_TYPES;
+import com.wowsanta.scim.SCIM_REPOSITORY_TYPES;
 import com.wowsanta.scim.annotation.SCIM_ENTITY;
+import com.wowsanta.entity.ScimResource;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -17,7 +20,10 @@ import lombok.EqualsAndHashCode;
 
 @Entity
 @Table(name = "WS_SCIM_ORG")
-@SCIM_ENTITY(name="Scim_Org")
+@SCIM_ENTITY(
+		schema 		= SCIM_EXT_SCHEMA_TYPES.SCIM_ORG_SCHEMA,
+		name		= SCIM_EXT_SCHEMA_TYPES.SCIM_ORG_SCHEMA,
+		repository  = SCIM_REPOSITORY_TYPES.SCIM_ORG_REPOSITORY)
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class ScimOrg extends ScimResource{
