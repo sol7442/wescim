@@ -12,6 +12,7 @@ import java.util.Set;
 
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
+import com.wowsanta.handler.DomainEntityHandler;
 import com.wowsanta.handler.ScimEntityHandler;
 import com.wowsanta.handler.ServiceHandler;
 import com.wowsanta.repository.RepositoryConfig;
@@ -27,7 +28,6 @@ import com.wowsanta.scim.config.DomainKey;
 import com.wowsanta.scim.json.DomainKeyTypeAdapter;
 import com.wowsanta.scim.json.RestfulServiceAdapter;
 import com.wowsanta.scim.service.RestfulService;
-import com.wowsanta.server.handler.impl.DomainEntityHandler;
 import com.wowsanta.server.spark.SparkServer;
 import com.wowsanta.server.spark.SparkServiceConfig;
 import com.wowsanta.service.ServiceStructure;
@@ -87,14 +87,31 @@ public class ProviderAgent {
 	
 	
 	public ProviderAgent build() throws ScimException {
+		
+		String class_path = settings.getProperty(ServiceStructure.CLASSES);
+		
 		ServiceStructureBuilder builder = ServiceStructureBuilder.builder()
-				.setProperty(settings)
-				.setRepository(repositoris.entrySet())
+				.setClassPath(class_path)
 				.addAnnotationHandler(new ScimEntityHandler(ServiceStructure.getInstance()))
 				.addAnnotationHandler(new DomainEntityHandler(ServiceStructure.getInstance()))
 				.addAnnotationHandler(new ServiceHandler(ServiceStructure.getInstance()));
 		builder.build();
 		
+		
+		
+		RepositoryManager rep_mgr = RepositoryManager.getInstance();
+		for (Entry<DomainKey, Configuration> entry : repositoris.entrySet()) {
+			RepositoryConfig configuration = (RepositoryConfig) ConfigurationBuilder.load(entry.getValue());
+			SessionFactory session_factory = configuration.build(ServiceStructure.getInstance().getEntitySet());
+			rep_mgr.addRepository(entry.getKey(),session_factory);
+			
+			ServiceStructure.getInstance().addRepository(entry.getKey(), entry.getValue());
+		}
+		rep_mgr.setDefault(this.settings.getProperty("DOMAIN"), this.settings.getProperty("REPOSITORY"));
+		
+		
+		
+		ServiceStructure.getInstance().setProperty(this.settings);
 
 		StringBuffer buffer = new StringBuffer();
 		buffer.append(settings.getProperty("HOME"));

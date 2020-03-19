@@ -50,22 +50,7 @@ public class SparkServer implements Server {
 	public void registerService(String key, String value) throws ScimException{
 		
 	}
-//	
-//	public void build() throws ScimException {
-////		Set<Entry<String,String>> service_entris = services.entrySet();
-////		for (Entry<String, String> entry : service_entris) {
-////			String service_name = entry.getKey();
-////			String service_file = entry.getValue();
-////			
-////			
-////			System.out.println("service_name  : " + service_name);
-////			System.out.println("service_name  : " + service_file);
-////			
-////			
-////		}
-//	}
-	
-	
+
 	@Override
 	public void initialize() throws ScimException{
 		LOGGER.system.info(" -- SPARK SERVER INITIALIZE --- : {}", "name");
@@ -76,6 +61,7 @@ public class SparkServer implements Server {
 		Spark.staticFiles.externalLocation(this.front);
 		
 		registryRestFul();
+		
 		//Spark.secure(keystoreFile, keystorePassword, truststoreFile, truststorePassword);
 	}
 	
@@ -91,7 +77,6 @@ public class SparkServer implements Server {
 					HttpMethod method = HttpMethod.valueOf(service_entry.getValue().getMethod());
 					
 					RestfulService service = service_entry.getValue();
-					
 					switch (method) {
 					case before:
 						//before(service_entry.getValue().getUrl(),newFilter(control_info.getControlClass()));

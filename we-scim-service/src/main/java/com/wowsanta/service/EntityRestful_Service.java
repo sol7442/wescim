@@ -9,14 +9,12 @@ import com.wowsanta.scim.entity.EntityInfo;
 import com.wowsanta.scim.service.RestfulService;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
-public class EntityRestful_Service implements RestfulService{
-	
-	public String name;
-	public String method;
-	public String url;
-	public EntityInfo entity;
+@EqualsAndHashCode(callSuper=true)
+public class EntityRestful_Service extends RestfulService{
+	public transient EntityInfo entity;
 	
 	@SuppressWarnings("unchecked")
 	public Repository<ScimResource> getRepoisitory(Session session) throws ScimException{

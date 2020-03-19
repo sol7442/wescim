@@ -34,6 +34,8 @@ public class ServiceHandler extends AnnotationHandler{
 				service.setName(annotation.name());
 				service.setMethod(annotation.method());
 				service.setUrl(annotation.url());
+				service.setEntity(entity);
+				
 				entity.addRestfulService(service);
 				
 				//structure.addEntity(entity);
