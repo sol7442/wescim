@@ -9,7 +9,7 @@ import javax.persistence.Table;
 import com.wowsanta.scim.SCIM_EXT_SCHEMA_TYPES;
 import com.wowsanta.scim.SCIM_REPOSITORY_TYPES;
 import com.wowsanta.scim.annotation.SCIM_ENTITY;
-import com.wowsanta.scim.entity.SCIM_Resource;
+import com.wowsanta.scim.entity.ScimResource;
 
 import lombok.Data;
 
@@ -20,7 +20,7 @@ import lombok.Data;
 		name		= SCIM_EXT_SCHEMA_TYPES.ADMIN_USER_SCHEMA,
 		schema 		= SCIM_EXT_SCHEMA_TYPES.ADMIN_USER_SCHEMA_URI,		
 		repository	= SCIM_REPOSITORY_TYPES.ADMIN_USER_REPOSITORY)
-public class AdminUser implements SCIM_Resource{
+public class AdminUser implements ScimResource{
 	@Id
 	@Column(name = "id", columnDefinition = "VARCHAR(64)")
 	private String id;

@@ -21,8 +21,9 @@ public class FileFinder {
 		}
 	}
 
-	public void addHandler(FileFindHandler handler) {
+	public FileFinder addHandler(FileFindHandler handler) {
 		this.handlers.add(handler);
+		return this;
 	}
 	
 	public void run() {

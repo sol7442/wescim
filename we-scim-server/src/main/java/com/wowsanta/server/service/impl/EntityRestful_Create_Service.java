@@ -2,10 +2,11 @@ package com.wowsanta.server.service.impl;
 
 import java.lang.reflect.Type;
 
-import com.wowsanta.entity.ScimResource;
+import com.wowsanta.entity.ScimEntity;
 import com.wowsanta.repository.Repository;
 import com.wowsanta.repository.RepositoryManager;
 import com.wowsanta.repository.Session;
+import com.wowsanta.scim.entity.EntityInfo;
 import com.wowsanta.scim.json.JsonUtil;
 import com.wowsanta.service.EntityRestful_Service;
 
@@ -18,20 +19,20 @@ import spark.Route;
 
 @Data
 @EqualsAndHashCode(callSuper=false)
-public class EntityRestful_Create_Service implements Route{
-	private final EntityRestful_Service service;
-	public EntityRestful_Create_Service(EntityRestful_Service service) {
-		this.service = service ;
+public class EntityRestful_Create_Service extends EntityRestful_Service implements Route{
+	//private final EntityRestful_Service service;
+	public EntityRestful_Create_Service(EntityInfo entity) {
+		this.entity = entity ;
 	}
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
 		try (Session session = RepositoryManager.getInstance().openSession()) {
-			String json = request.body();
-			ScimResource res = (ScimResource) JsonUtil.parse(service.getEntity().getImplClss(), json);
-
-			
-			Repository<ScimResource> repository = service.getRepoisitory(session);
-			repository.create(res);
+//			String json = request.body();
+//			ScimEntity res = (ScimEntity) JsonUtil.parse(service.getEntity().getImplClss(), json);
+//
+//			
+//			Repository<ScimEntity> repository = service.getRepoisitory(session);
+//			repository.create(res);
 
 			
 			session.commit();

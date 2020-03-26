@@ -1,11 +1,11 @@
 package com.wowsanta.scim.message;
 
-import com.wowsanta.scim.entity.SCIM_Resource;
+import com.wowsanta.scim.entity.ScimResource;
 
 import lombok.Data;
 
 @Data
-public class SCIMBulkOperation<T extends SCIM_Resource>{
+public class SCIMBulkOperation<T extends ScimResource>{
 	private String bulkId;
 	private String method;
 	private String path;

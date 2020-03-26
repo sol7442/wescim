@@ -8,7 +8,8 @@ import lombok.Data;
 @Data
 public class HibernateSessionFactory implements SessionFactory {
 
-	private org.hibernate.SessionFactory hibernateSessionFactory;
+	private String implClass;
+	private transient org.hibernate.SessionFactory hibernateSessionFactory;
 	
 	@Override
 	public Session openSession() {

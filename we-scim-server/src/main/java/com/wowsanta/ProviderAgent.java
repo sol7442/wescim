@@ -43,8 +43,8 @@ public class ProviderAgent {
 	@SerializedName(value = "server")
 	private Configuration serverConfig;
 	
-	private Map<DomainKey,Configuration> services = new HashMap<DomainKey, Configuration>();
-	private Map<DomainKey,Configuration> repositoris = new HashMap<DomainKey, Configuration>();
+	private Map<String,Configuration> services = new HashMap<String, Configuration>();
+	private Map<String,Configuration> repositoris = new HashMap<String, Configuration>();
 
 	
 	@SerializedName(value = "fiter")
@@ -64,11 +64,11 @@ public class ProviderAgent {
 			String config_file 	= System.getProperty("server.config");
 			
 			config_file = "../config/dev.provider.json";
-			Type type = new TypeToken<Map<DomainKey, Configuration>>(){}.getType();
-			ConfigurationBuilder.builder.registerTypeAdapter(type, new DomainKeyTypeAdapter());
-			
-			Type type2 = new TypeToken<RestfulService>(){}.getType();
-			ConfigurationBuilder.builder.registerTypeAdapter(type2, new RestfulServiceAdapter());
+//			Type type = new TypeToken<Map<DomainKey, Configuration>>(){}.getType();
+//			ConfigurationBuilder.builder.registerTypeAdapter(type, new DomainKeyTypeAdapter());
+//			
+//			Type type2 = new TypeToken<RestfulService>(){}.getType();
+//			ConfigurationBuilder.builder.registerTypeAdapter(type2, new RestfulServiceAdapter());
 			
 			ProviderAgent provider = ConfigurationBuilder.load(ProviderAgent.class, config_file);
 			
@@ -81,37 +81,29 @@ public class ProviderAgent {
 		}
 	}
 
-	public void addRepository(DomainKey key, Configuration config) {
+	public void addRepository(String key, Configuration config) {
 		repositoris.put(key, config);
 	}
 	
 	
 	public ProviderAgent build() throws ScimException {
 		
-		String class_path = settings.getProperty(ServiceStructure.CLASSES);
-		
-		ServiceStructureBuilder builder = ServiceStructureBuilder.builder()
-				.setClassPath(class_path)
-				.addAnnotationHandler(new ScimEntityHandler(ServiceStructure.getInstance()))
-				.addAnnotationHandler(new DomainEntityHandler(ServiceStructure.getInstance()))
-				.addAnnotationHandler(new ServiceHandler(ServiceStructure.getInstance()));
-		builder.build();
-		
-		
+		ServiceStructure service_structuer = ServiceStructureBuilder.builder()
+			.setSettings(settings)
+			.build();
 		
 		RepositoryManager rep_mgr = RepositoryManager.getInstance();
-		for (Entry<DomainKey, Configuration> entry : repositoris.entrySet()) {
+		for (Entry<String, Configuration> entry : repositoris.entrySet()) {
 			RepositoryConfig configuration = (RepositoryConfig) ConfigurationBuilder.load(entry.getValue());
-			SessionFactory session_factory = configuration.build(ServiceStructure.getInstance().getEntitySet());
+			
+			SessionFactory session_factory = configuration.build(service_structuer.getEntitySet());
+			session_factory.setImplClass(session_factory.getClass().getName());
 			rep_mgr.addRepository(entry.getKey(),session_factory);
 			
-			ServiceStructure.getInstance().addRepository(entry.getKey(), entry.getValue());
+			service_structuer.addSessionFactory(entry.getKey(), session_factory);
 		}
-		rep_mgr.setDefault(this.settings.getProperty("DOMAIN"), this.settings.getProperty("REPOSITORY"));
+		rep_mgr.setDefaultSessionFactory(this.settings.getProperty("SESSION_FACTORY"));
 		
-		
-		
-		ServiceStructure.getInstance().setProperty(this.settings);
 
 		StringBuffer buffer = new StringBuffer();
 		buffer.append(settings.getProperty("HOME"));

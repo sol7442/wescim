@@ -11,7 +11,8 @@ import lombok.Data;
 
 @Data
 public class MyBatisSessionFactory  implements SessionFactory{
-	private SqlSessionFactory myBatisSessionfactory;
+	private String implClass;
+	private transient SqlSessionFactory myBatisSessionfactory;
 	
 	@Override
 	public Session openSession() {

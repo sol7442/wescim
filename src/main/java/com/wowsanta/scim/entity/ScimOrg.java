@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import com.wowsanta.scim.SCIM_EXT_SCHEMA_TYPES;
 import com.wowsanta.scim.SCIM_REPOSITORY_TYPES;
 import com.wowsanta.scim.annotation.SCIM_ENTITY;
-import com.wowsanta.entity.ScimResource;
+import com.wowsanta.entity.ScimEntity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -26,7 +26,7 @@ import lombok.EqualsAndHashCode;
 		repository  = SCIM_REPOSITORY_TYPES.SCIM_ORG_REPOSITORY)
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class ScimOrg extends ScimResource{
+public class ScimOrg extends ScimEntity{
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "parent", foreignKey = @ForeignKey(name="FK_ORG_PARENT"))

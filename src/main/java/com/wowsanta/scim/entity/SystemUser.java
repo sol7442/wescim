@@ -23,7 +23,7 @@ import lombok.Data;
 		name		= SCIM_EXT_SCHEMA_TYPES.SYSTEM_USER_SCHEMA,
 		schema 		= SCIM_EXT_SCHEMA_TYPES.SYSTEM_USER_SCHEMA_URI,
 		repository	= SCIM_REPOSITORY_TYPES.SYSTEM_USER_REPOSITORY)
-public class SystemUser implements SCIM_Resource {
+public class SystemUser implements ScimResource {
 	
 	@Id
 	@Column(name = "id", columnDefinition = "VARCHAR(64)")

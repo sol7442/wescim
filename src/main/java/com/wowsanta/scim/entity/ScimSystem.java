@@ -26,10 +26,10 @@ import lombok.Data;
 @Entity
 @Table(name = "WS_SCIM_SYSTEM")
 @SCIM_ENTITY(
-		schema 		= SCIM_EXT_SCHEMA_TYPES.SCIM_SYSTEM_SCHEMA,
-		name		= SCIM_EXT_SCHEMA_TYPES.SCIM_SYSTEM_SCHEMA_URI,
+		name		= SCIM_EXT_SCHEMA_TYPES.SCIM_SYSTEM_SCHEMA,
+		schema 		= SCIM_EXT_SCHEMA_TYPES.SCIM_SYSTEM_SCHEMA_URI,
 		repository  = SCIM_REPOSITORY_TYPES.SCIM_SYSTEM_REPOSITORY)
-public class ScimSystem implements SCIM_Resource {
+public class ScimSystem implements ScimResource {
 	
 	public enum Type{
 		PROVIDER,SOUREC,TARGET

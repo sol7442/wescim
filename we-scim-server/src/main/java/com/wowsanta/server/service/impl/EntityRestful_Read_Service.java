@@ -1,11 +1,12 @@
 package com.wowsanta.server.service.impl;
 
-import com.wowsanta.entity.ScimResource;
+import com.wowsanta.entity.ScimEntity;
 import com.wowsanta.repository.Repository;
 import com.wowsanta.repository.RepositoryManager;
 import com.wowsanta.repository.Session;
 import com.wowsanta.scim.ScimException;
-import com.wowsanta.scim.entity.SCIM_Resource;
+import com.wowsanta.scim.entity.EntityInfo;
+import com.wowsanta.scim.entity.ScimResource;
 import com.wowsanta.scim.json.JsonUtil;
 import com.wowsanta.service.EntityRestful_Service;
 
@@ -18,10 +19,9 @@ import spark.Route;
 
 @Data
 @EqualsAndHashCode(callSuper=false)
-public class EntityRestful_Read_Service  implements Route {
-	private final EntityRestful_Service service;
-	public EntityRestful_Read_Service(EntityRestful_Service service) {
-		this.service = service ;
+public class EntityRestful_Read_Service extends EntityRestful_Service implements Route {
+	public EntityRestful_Read_Service(EntityInfo entity) {
+		this.entity = entity ;
 	}
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
@@ -32,8 +32,8 @@ public class EntityRestful_Read_Service  implements Route {
 				throw new ScimException("parameter is null");
 			}
 			
-			Repository<ScimResource> repository = service.getRepoisitory(session);
-			SCIM_Resource res = repository.read(read_id);
+			Repository<ScimEntity> repository = getRepoisitory(session);
+			ScimResource res = repository.read(read_id);
 			
 			result = JsonUtil.toJson(res);
 		}catch (Exception e) {

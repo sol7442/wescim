@@ -63,9 +63,9 @@ public class ProviderTest {
 			provider.setServerConfig(server.save(server_config_5000_file));
 			
 			Properties prop = new Properties();
-			prop.put(ServiceStructure.DOMAIN, "local.dev.scim");
-			prop.put(ServiceStructure.REPOSITORY, "hibernate");
-			prop.put(ServiceStructure.CLASSES,"./we-scim-service/bin;./bin;./bin/main");
+			prop.put("DOMAIN", "local.dev.scim");
+			prop.put("REPOSITORY", "hibernate");
+			prop.put("CLASSES","./we-scim-service/bin;./bin;./bin/main");
 			
 			
 			provider.setSettings(prop);
@@ -75,8 +75,8 @@ public class ProviderTest {
 			Configuration hibernate_config = new Configuration(repository_config_file_2, HibernateConfiguration.class);
 			Configuration hibernate_tibero_config = new Configuration(repository_config_file_3, HibernateConfiguration.class);
 			
-			provider.addRepository(new DomainKey("local.dev.scim","mybatis"),mybatis_config);
-			provider.addRepository(new DomainKey("local.dev.scim","hibernate"),hibernate_config);
+			provider.addRepository("default.mybatis",mybatis_config);
+			provider.addRepository("default.hibernate",hibernate_config);
 			
 			provider.build();
 			provider.initialize();

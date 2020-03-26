@@ -48,8 +48,8 @@ public class RepositoryManagerTest {
 			
 			
 			
-			manager.addRepository(new DomainKey("local.dev.scim","mybatis"),mybatis_factory);
-			manager.addRepository(new DomainKey("local.dev.scim","hibernate"),hibernate_factory);
+			manager.addRepository("default.mybatis",mybatis_factory);
+			manager.addRepository("default.hibernate",hibernate_factory);
 			
 			System.out.println(ConfigurationBuilder.toJson(manager));
 			

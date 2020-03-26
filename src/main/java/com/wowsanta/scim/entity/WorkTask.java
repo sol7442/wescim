@@ -15,7 +15,7 @@ import org.hibernate.annotations.GenericGenerator;
 import com.wowsanta.scim.SCIM_EXT_SCHEMA_TYPES;
 import com.wowsanta.scim.SCIM_REPOSITORY_TYPES;
 import com.wowsanta.scim.annotation.SCIM_ENTITY;
-import com.wowsanta.scim.entity.SCIM_Resource;
+import com.wowsanta.scim.entity.ScimResource;
 
 import lombok.Data;
 
@@ -26,7 +26,7 @@ import lombok.Data;
 		schema 		= SCIM_EXT_SCHEMA_TYPES.WORK_TASK_SCHEMA_URI,
 		repository	= SCIM_REPOSITORY_TYPES.WORK_TASK_REPOSITORY)
 @Data
-public class WorkTask implements SCIM_Resource{
+public class WorkTask implements ScimResource{
 	
 	public enum Type{
 		CREATE,UPDATE,DELETE

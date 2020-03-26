@@ -14,7 +14,7 @@ import javax.persistence.Table;
 import com.wowsanta.scim.SCIM_EXT_SCHEMA_TYPES;
 import com.wowsanta.scim.SCIM_REPOSITORY_TYPES;
 import com.wowsanta.scim.annotation.SCIM_ENTITY;
-import com.wowsanta.scim.entity.SCIM_Resource;
+import com.wowsanta.scim.entity.ScimResource;
 
 import lombok.Data;
 
@@ -25,7 +25,7 @@ import lombok.Data;
 		schema 		= SCIM_EXT_SCHEMA_TYPES.WORK_JOB_SCHEMA_URI,
 		repository	= SCIM_REPOSITORY_TYPES.WORK_JOB_REPOSITORY)
 @Data
-public class WorkJob implements SCIM_Resource{
+public class WorkJob implements ScimResource{
 	@Id
 	@Column(name = "id", columnDefinition = "VARCHAR(64)")
 	private String id;

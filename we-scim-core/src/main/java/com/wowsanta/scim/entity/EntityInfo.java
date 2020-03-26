@@ -12,13 +12,12 @@ import lombok.Data;
 
 @Data
 public class EntityInfo {
-	private transient Class<?> implClss;
-	private String name;
 	private String schema;
+	private String name;
 	private String className;
+	private transient Class<?> implClss;
 	private String repository;
-	private Map<String,RestfulService> services ;
-	
+	private Map<String,RestfulService> services ;	
 	private Map<String, EntityInfo> domains;
 
 	public Set<Entry<String, RestfulService>> getRestfulServiceSet(){
@@ -45,6 +44,9 @@ public class EntityInfo {
 			domains = new HashMap<>();
 		}
 		return domains.get(domain);
+	}
+	public RestfulService getRestfulService(String method) {
+		return this.services.get(method);
 	}
 }
 

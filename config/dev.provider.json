@@ -5,19 +5,20 @@
   },
   "services": {},
   "repositoris": {
-    "local.dev.scim:mybatis": {
+    "default.mybatis": {
       "fileName": "./config/default.repository.local_tibero.mybatis.json",
       "implClss": "com.wowsanta.repository.mybatis.MyBatisConfiguration"
     },
-    "local.dev.scim:hibernate": {
+    "default.hibernate": {
       "fileName": "./config/default.repository.local_tibero.hibernate.json",
       "implClss": "com.wowsanta.repository.hibernate.HibernateConfiguration"
     }
   },
   "settings": {
   	"HOME": "./",
-    "DOMAIN": "local.dev.scim",
+  	"URL": "http://127.0.0.1:5000",
+    "DOMAIN": "local.host.com",
     "CLASSES": "./we-scim-service/bin;./bin;./bin/main",
-    "REPOSITORY": "mybatis"
+    "SESSION_FACTORY": "default.mybatis"
   }
 }

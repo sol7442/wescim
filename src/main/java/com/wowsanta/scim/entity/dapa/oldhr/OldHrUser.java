@@ -9,7 +9,7 @@ import com.wowsanta.scim.type.SCIM_SCHEMA_TYPES;
 import lombok.Data;
 
 @Data
-@DOMAIN_ENTITY(name=SCIM_SCHEMA_TYPES.SCIM_USER_SCHEMA,domain="dapa.oldhr.dev")
+@DOMAIN_ENTITY(name=SCIM_SCHEMA_TYPES.SCIM_USER_SCHEMA,domain="https://dapa.oldhr.dev:8080")
 public class OldHrUser extends OldHrResource {
 	@Embedded
 	private OldHrMeta meta;

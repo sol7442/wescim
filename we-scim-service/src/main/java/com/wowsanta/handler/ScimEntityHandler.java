@@ -9,6 +9,7 @@ import com.wowsanta.scim.service.RestfulService;
 import com.wowsanta.scim.type.RestfulServiceType;
 import com.wowsanta.service.EntityRestful_Service;
 import com.wowsanta.service.ServiceStructure;
+import com.wowsanta.service.ServiceUtil;
 import com.wowsanta.util.log.LOGGER;
 
 
@@ -76,8 +77,8 @@ public class ScimEntityHandler extends AnnotationHandler {
 		RestfulService service = new EntityRestful_Service();
 		service.setName("search");
 		service.setMethod("post");
-		service.setUrl(getServiceUrl(entity.getName(), ""));
-		
+		service.setUrl(ServiceUtil.getServiceUrl(entity.getName(), ""));
+		service.setEntity(entity);
 		entity.addRestfulService(service);
 		
 	}
@@ -86,8 +87,8 @@ public class ScimEntityHandler extends AnnotationHandler {
 		RestfulService service = new EntityRestful_Service();
 		service.setName("delete");
 		service.setMethod("delete");
-		service.setUrl(getServiceUrl(entity.getName(), ":id"));
-		
+		service.setUrl(ServiceUtil.getServiceUrl(entity.getName(), ":id"));
+		service.setEntity(entity);
 		entity.addRestfulService(service);
 	}
 
@@ -95,8 +96,8 @@ public class ScimEntityHandler extends AnnotationHandler {
 		RestfulService service = new EntityRestful_Service();
 		service.setName("update");
 		service.setMethod("patch");
-		service.setUrl(getServiceUrl(entity.getName(), ":id"));
-		
+		service.setUrl(ServiceUtil.getServiceUrl(entity.getName(), ":id"));
+		service.setEntity(entity);
 		entity.addRestfulService(service);
 	}
 
@@ -104,8 +105,8 @@ public class ScimEntityHandler extends AnnotationHandler {
 		RestfulService service = new EntityRestful_Service();
 		service.setName("read");
 		service.setMethod("get");
-		service.setUrl(getServiceUrl(entity.getName(), ":id"));
-		
+		service.setUrl(ServiceUtil.getServiceUrl(entity.getName(), ":id"));
+		service.setEntity(entity);
 		entity.addRestfulService(service);
 	}
 
@@ -113,22 +114,9 @@ public class ScimEntityHandler extends AnnotationHandler {
 		RestfulService service = new EntityRestful_Service();
 		service.setName("create");
 		service.setMethod("post");
-		service.setUrl(getServiceUrl(entity.getName(),null));
-		
+		service.setUrl(ServiceUtil.getServiceUrl(entity.getName(),null));
+		service.setEntity(entity);
 		entity.addRestfulService(service);
-	}
-	
-	public String getServiceUrl(String entity_name, String params) {
-		StringBuffer buffer = new StringBuffer();
-		buffer.append("/");
-		buffer.append(entity_name.replace("_", "/"));
-		buffer.append("s");
-		
-		if(params != null) {
-			buffer.append("/").append(params);
-		}
-
-		return buffer.toString();
 	}
 
 }

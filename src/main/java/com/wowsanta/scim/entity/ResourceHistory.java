@@ -24,7 +24,7 @@ import lombok.Data;
 		name		= SCIM_EXT_SCHEMA_TYPES.RESOURCE_HISTORY_SCHEMA,
 		restful= {RestfulServiceType.READ})
 @Data
-public class ResourceHistory implements SCIM_Resource {
+public class ResourceHistory implements ScimResource {
 	
 	@Id
 	@GeneratedValue(generator="UUID")

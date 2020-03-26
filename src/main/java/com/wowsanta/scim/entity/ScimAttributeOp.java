@@ -9,7 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.wowsanta.entity.ScimResource;
+import com.wowsanta.entity.ScimEntity;
 
 import lombok.Data;
 
@@ -19,7 +19,7 @@ public class ScimAttributeOp {
 	
 	public enum EqOp{
 		EQV{
-			public boolean op(ScimResource a, ScimResource b) {
+			public boolean op(ScimEntity a, ScimEntity b) {
 				if(a == null) return true;
 				if(b == null) return false;
 				
@@ -28,7 +28,7 @@ public class ScimAttributeOp {
 		},
 		NEQ
 		{
-			public boolean op(ScimResource a, ScimResource b) {
+			public boolean op(ScimEntity a, ScimEntity b) {
 				if(a == null) return true;
 				if(b == null) return false;
 				
@@ -36,7 +36,7 @@ public class ScimAttributeOp {
 			}
 		};
 		
-		public abstract boolean op(ScimResource a, ScimResource b);
+		public abstract boolean op(ScimEntity a, ScimEntity b);
 	}
 	public enum LogicOp{
 		AND{
@@ -108,7 +108,7 @@ public class ScimAttributeOp {
 		return op.op(val1, val2);
 	}
 
-	private boolean res_op(ScimResource res1, EqOp op, ScimResource res2) {
+	private boolean res_op(ScimEntity res1, EqOp op, ScimEntity res2) {
 		if(op == null) return EqOp.EQV.op(res1, res2);
 		return op.op(res1,res2);
 	}

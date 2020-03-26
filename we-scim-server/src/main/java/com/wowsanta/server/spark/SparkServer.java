@@ -71,7 +71,10 @@ public class SparkServer implements Server {
 		
 		Set<Entry<String, EntityInfo>> entity_entry_set = ServiceStructure.getInstance().getEntitySet();
 		for (Entry<String, EntityInfo> entity_entry : entity_entry_set) {
-			Set<Entry<String, RestfulService>> service_entry_set = entity_entry.getValue().getRestfulServiceSet();
+			
+			EntityInfo entity_info = entity_entry.getValue();
+			
+			Set<Entry<String, RestfulService>> service_entry_set = entity_info.getRestfulServiceSet();
 			for (Entry<String, RestfulService> service_entry : service_entry_set) {
 				try {
 					HttpMethod method = HttpMethod.valueOf(service_entry.getValue().getMethod());
@@ -85,19 +88,19 @@ public class SparkServer implements Server {
 						//after(control_info.getPath(),newFilter(control_info.getControlClass()));
 						break;
 					case post:
-						post(service.getUrl(),bulder.build_route(service));
+						post(service.getUrl(),bulder.build(service,entity_info));
 						break;
 					case get:
-						get(service.getUrl(),bulder.build_route(service));
+						get(service.getUrl(),bulder.build(service,entity_info));
 						break;
 					case patch:
-						patch(service.getUrl(),bulder.build_route(service));
+						patch(service.getUrl(),bulder.build(service,entity_info));
 						break;
 					case put:
-						put(service.getUrl(),bulder.build_route(service));
+						put(service.getUrl(),bulder.build(service,entity_info));
 						break;
 					case delete:
-						delete(service.getUrl(),bulder.build_route(service));
+						delete(service.getUrl(),bulder.build(service,entity_info));
 						break;
 					default:
 						break;

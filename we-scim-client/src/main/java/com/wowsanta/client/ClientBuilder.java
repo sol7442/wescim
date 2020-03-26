@@ -54,7 +54,13 @@ public class ClientBuilder {
 	}
 	
 	public ScimClient build() {
-		return new ScimClient(get());
+		
+		ScimClient client = new ScimClient();
+		client.setDomain(domain);
+		client.setUrl(url);
+		client.setEntity(entity);
+		
+		return client;
 	}
 	public CloseableHttpClient get() {
     	return HttpClients.custom()

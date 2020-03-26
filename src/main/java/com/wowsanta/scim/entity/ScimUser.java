@@ -1,6 +1,7 @@
 package com.wowsanta.scim.entity;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -15,7 +16,7 @@ import javax.persistence.Table;
 import com.wowsanta.scim.SCIM_EXT_SCHEMA_TYPES;
 import com.wowsanta.scim.SCIM_REPOSITORY_TYPES;
 import com.wowsanta.scim.annotation.SCIM_ENTITY;
-import com.wowsanta.entity.ScimResource;
+import com.wowsanta.entity.ScimEntity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -30,7 +31,9 @@ import lombok.ToString;
 		name		= SCIM_EXT_SCHEMA_TYPES.SCIM_USER_SCHEMA,
 		schema 		= SCIM_EXT_SCHEMA_TYPES.SCIM_USER_SCHEMA_URI,
 		repository	= SCIM_REPOSITORY_TYPES.SCIM_USER_REPOSITORY)
-public class ScimUser extends ScimResource {
+public class ScimUser extends ScimEntity {
+	private String[] schema = {SCIM_EXT_SCHEMA_TYPES.SCIM_USER_SCHEMA_URI};
+	
 	@Embedded
 	private ScimMeta meta;
 	

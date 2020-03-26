@@ -16,7 +16,7 @@ import com.wowsanta.scim.SCIM_EXT_SCHEMA_TYPES;
 import com.wowsanta.scim.SCIM_REPOSITORY_TYPES;
 import com.wowsanta.scim.annotation.SCIM_ENTITY;
 import com.wowsanta.scim.type.RestfulServiceType;
-import com.wowsanta.entity.ScimResource;
+import com.wowsanta.entity.ScimEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -29,7 +29,7 @@ import lombok.EqualsAndHashCode;
 		schema 		= SCIM_EXT_SCHEMA_TYPES.SCIM_GROUP_SCHEMA_URI,
 		name		= SCIM_EXT_SCHEMA_TYPES.SCIM_GROUP_SCHEMA,
 		repository  = SCIM_REPOSITORY_TYPES.SCIM_GROUP_REPOSITORY)
-public class ScimGroup extends ScimResource {
+public class ScimGroup extends ScimEntity {
 	@Embedded
 	private ScimMeta meta;
 	

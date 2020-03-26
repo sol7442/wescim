@@ -25,7 +25,7 @@ import lombok.Data;
 		name		= SCIM_EXT_SCHEMA_TYPES.SYSTEM_PASSWORD_SCHEMA,
 		schema 		= SCIM_EXT_SCHEMA_TYPES.SYSTEM_PASSWORD_SCHEMA_URI,
 		repository	= SCIM_REPOSITORY_TYPES.SYSTEM_PASSWORD_REPOSITORY)
-public class SystemPassword implements SCIM_Resource {
+public class SystemPassword implements ScimResource {
 	
 	@Embeddable
 	@Data

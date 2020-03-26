@@ -8,7 +8,7 @@ import javax.persistence.Table;
 import com.wowsanta.scim.SCIM_EXT_SCHEMA_TYPES;
 import com.wowsanta.scim.SCIM_REPOSITORY_TYPES;
 import com.wowsanta.scim.annotation.SCIM_ENTITY;
-import com.wowsanta.entity.ScimResource;
+import com.wowsanta.entity.ScimEntity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -22,7 +22,7 @@ import lombok.EqualsAndHashCode;
 		repository  = SCIM_REPOSITORY_TYPES.SCIM_JOB_REPOSITORY)
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class ScimJob extends ScimResource{
+public class ScimJob extends ScimEntity{
 	@Embedded
 	private ScimMeta meta;
 	

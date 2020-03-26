@@ -23,7 +23,7 @@ import lombok.Data;
 		name		= SCIM_EXT_SCHEMA_TYPES.SCIM_PASSWORD_SCHEMA,
 		repository  = SCIM_REPOSITORY_TYPES.SCIM_PASSWORD_REPOSITORY)
 @Data
-public class ScimPassword implements SCIM_Resource {
+public class ScimPassword implements ScimResource {
 	
 	@Id
 	@Column(name = "Id", columnDefinition = "VARCHAR(64)")

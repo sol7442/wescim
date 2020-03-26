@@ -17,11 +17,11 @@ public class Provider {
 
 	public static void main(String[] args) {
 		try {
-			Type type = new TypeToken<Map<DomainKey, Configuration>>(){}.getType();
-			ConfigurationBuilder.builder.registerTypeAdapter(type, new DomainKeyTypeAdapter());
-			
-			Type type2 = new TypeToken<RestfulService>(){}.getType();
-			ConfigurationBuilder.builder.registerTypeAdapter(type2, new RestfulServiceAdapter());
+//			Type type = new TypeToken<Map<DomainKey, Configuration>>(){}.getType();
+//			ConfigurationBuilder.builder.registerTypeAdapter(type, new DomainKeyTypeAdapter());
+//			
+//			Type type2 = new TypeToken<RestfulService>(){}.getType();
+//			ConfigurationBuilder.builder.registerTypeAdapter(type2, new RestfulServiceAdapter());
 			ProviderAgent agent = ConfigurationBuilder.load(ProviderAgent.class, "./config/dev.provider.json");
 			
 			agent.build()
