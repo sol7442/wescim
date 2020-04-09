@@ -12,6 +12,7 @@ import com.wowsanta.scim.type.RestfulServiceType;
 public @interface SCIM_ENTITY {
 	String schema() 	;
 	String name();
-	String repository() default Constants.NULL_STRINNG;
+	String domain() 	default Constants.DEFATUL_DOMAIN;
+	String repository() default Constants.DEFATUL_REPOSITORY;
 	RestfulServiceType[] restful() default RestfulServiceType.ALL;
 }
